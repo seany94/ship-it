@@ -16,6 +16,8 @@ ActiveRecord::Schema.define(version: 2019_02_01_071141) do
   enable_extension "plpgsql"
 
   create_table "jobs", force: :cascade do |t|
+    t.string "title"
+    t.string "package_picture"
     t.string "start_location"
     t.string "end_location"
     t.datetime "date_pickup"
@@ -30,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_02_01_071141) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.text "profile_picture"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
