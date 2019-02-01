@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_location: MyString
+  end-location: MyString
+  date_pickup: 2019-02-01 15:11:41
+  date_delivery: 2019-02-01 15:11:41
+  accepted: false
+  completed: false
+  user: one
+
+two:
+  start_location: MyString
+  end-location: MyString
+  date_pickup: 2019-02-01 15:11:41
+  date_delivery: 2019-02-01 15:11:41
+  accepted: false
+  completed: false
+  user: two

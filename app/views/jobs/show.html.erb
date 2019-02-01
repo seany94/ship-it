@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start location:</strong>
+  <%= @job.start_location %>
+</p>
+
+<p>
+  <strong>End-location:</strong>
+  <%= @job.end-location %>
+</p>
+
+<p>
+  <strong>Date pickup:</strong>
+  <%= @job.date_pickup %>
+</p>
+
+<p>
+  <strong>Date delivery:</strong>
+  <%= @job.date_delivery %>
+</p>
+
+<p>
+  <strong>Accepted:</strong>
+  <%= @job.accepted %>
+</p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @job.completed %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @job.user %>
+</p>
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>
