@@ -1,0 +1,49 @@
+<h1>User</h1>
+
+<% if user_signed_in? %>
+  <div>Signed in as... <%= current_user.username %></div>
+  <table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Username</th>
+      <th>Profile picture</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= current_user.id %></td>
+        <td><%= current_user.username %></td>
+        <td><%= image_tag current_user.profile_picture %></td>
+      </tr>
+  </tbody>
+</table>
+
+<% else %>
+<table>
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Username</th>
+      <th>Profile picture</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= image_tag user.profile_picture %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+
+<br>
+
+<%= link_to 'log out', destroy_user_session_url, method: :delete %>
+<%= link_to 'log in', new_user_session_url %>
