@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   before_action :authenticate_user!, :except => [ :show, :index ]
 
   def index
@@ -37,6 +38,6 @@ class UsersController < ApplicationController
   def destroy
   end
 
-  private
+  protected
 
 end
