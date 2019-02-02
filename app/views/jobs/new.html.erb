@@ -1,4 +1,7 @@
 <h1>New Job</h1>
+<% provide :head_tags do %>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ Rails.application.credentials.google_maps_api_key + '&libraries=places&callback=initAutocomplete'%>
+<% end %>
 
 <%= render 'form', job: @job %>
 
