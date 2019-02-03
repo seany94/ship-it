@@ -10,6 +10,7 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @job = Job.find(params[:id])
   end
 
   # GET /jobs/new

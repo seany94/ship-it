@@ -38,7 +38,7 @@
 
 <p>
   <strong>Created by user:</strong>
-  <%= @job.user_id.username %>
+  <%= @job.user.username %>
 </p>
 
 <%= link_to 'Edit', edit_job_path(@job) %> |
