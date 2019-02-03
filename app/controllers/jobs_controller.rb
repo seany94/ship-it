@@ -61,6 +61,10 @@ class JobsController < ApplicationController
     end
   end
 
+  def map
+    gon.jobs = Job.all
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_job
