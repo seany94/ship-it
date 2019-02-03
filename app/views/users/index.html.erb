@@ -50,7 +50,11 @@
 		      <tr>
 		        <td><%= job.id %></td>
 		        <td><%= job.title %></td>
+              <% if job.package_picture == nil %>
+		        <td>No package picture</td>
+              <% else %>
 		        <td><%= image_tag job.package_picture, width: 150 %></td>
+              <% end %>
 		        <td><%= job.start_location %></td>
 		        <td><%= job.end_location %></td>
 		        <td><%= job.date_pickup %></td>
@@ -58,7 +62,11 @@
 		        <td><%= job.accepted %></td>
 		        <td><%= job.completed %></td>
 		        <td><%= job.user.username %></td>
+              <% if job.acceptor == nil%>
+            <td>No acceptors yet</td>
+              <% else %>
 		        <td><%= job.acceptor.username %></td>
+              <% end %>
 		      </tr>
 		    <% end %>
 		  </tbody>
