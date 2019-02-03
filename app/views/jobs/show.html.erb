@@ -1,6 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Title:</strong>
+  <%= @job.title %>
+</p>
+
+
+<p>
   <strong>Start location:</strong>
   <%= @job.start_location %>
 </p>
@@ -31,8 +37,8 @@
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @job.user %>
+  <strong>Created by user:</strong>
+  <%= @job.user.username %>
 </p>
 
 <%= link_to 'Edit', edit_job_path(@job) %> |
