@@ -3,6 +3,6 @@
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ Rails.application.credentials.google_maps_api_key + '&libraries=places&callback=initAutocomplete'%>
 <% end %>
 
-<%= render 'form', job: @job %>
+ <%= render 'form', job: @job %>
 
-<%= link_to 'Back', jobs_path %>
+<%= link_to 'Back', root_path %>
