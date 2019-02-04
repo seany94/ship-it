@@ -1,5 +1,5 @@
 <%#<%= form_with(model: job, local: true) do |form| %>
-<%= form_with scope: :job, url: jobs_path, local: true do |form| %>
+<%= form_with scope: :job, model: @job, local: true do |form| %>
 
   <% if job.errors.any? %>
     <div id="error_explanation">
@@ -42,13 +42,7 @@
     <%= form.hidden_field :acceptor_id, :value => nil %>
   </div>
 
-  <div class="field">
-    <%= form.hidden_field :accepted, :value => false %>
-  </div>
 
-  <div class="field">
-    <%= form.hidden_field :completed, :value => false %>
-  </div>
 
   <div class="actions">
     <%= form.submit %>

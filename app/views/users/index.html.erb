@@ -1,6 +1,10 @@
 <% if user_signed_in? %>
 <h1>User</h1>
-  <div>Signed in as... <%= current_user.username %> <%= link_to 'Edit profile', edit_user_registration_path %></div>
+  <div>
+    Signed in as... <%= current_user.username %> 
+    <%= link_to 'Edit profile', edit_user_registration_path %>
+    <%= link_to 'New Job', new_job_path %>
+  </div>
 	<table>
 	  <tbody>
 	    <% if current_user.profile_picture == nil %>
@@ -46,7 +50,11 @@
 		      <tr>
 		        <td><%= job.id %></td>
 		        <td><%= job.title %></td>
+              <% if job.package_picture == nil %>
+		        <td>No package picture</td>
+              <% else %>
 		        <td><%= image_tag job.package_picture, width: 150 %></td>
+              <% end %>
 		        <td><%= job.start_location %></td>
 		        <td><%= job.end_location %></td>
 		        <td><%= job.date_pickup %></td>
@@ -54,7 +62,14 @@
 		        <td><%= job.accepted %></td>
 		        <td><%= job.completed %></td>
 		        <td><%= job.user.username %></td>
+              <% if job.acceptor == nil%>
+            <td>No acceptors yet</td>
+              <% else %>
 		        <td><%= job.acceptor.username %></td>
+              <% end %>
+            <td><%= link_to 'Show', job %></td>
+            <td><%= link_to 'Edit', edit_job_path(job) %></td>
+            <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 		      </tr>
 		    <% end %>
 		  </tbody>
