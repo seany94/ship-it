@@ -1,95 +1,103 @@
 <% if user_signed_in? %>
-<h1>User</h1>
-  <div>
-    Signed in as... <%= current_user.username %>
-    <%= link_to 'Edit profile', edit_user_registration_path %>
-    <%= link_to 'New Job', new_job_path %>
+<div class="container m-0" style="max-width: 100%;">
+  <div class="row">
+    <div class="col">
+			<h1>Welcome <%= current_user.username %></h1>
+    </div>
   </div>
-	<table>
-	  <tbody>
-	    <% if current_user.profile_picture == nil %>
-        <h3>No profile picture, please upload</h3>
-      <% else %>
-        <tr>
-          <td><%= image_tag current_user.profile_picture, width: 300 %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td>Email address <%= current_user.email %></td>
-      </tr>
-	  </tbody>
-	</table>
-
-	<ul class="nav nav-tabs">
-	  <li class="nav-item">
-	    <a class="nav-link" href="/?job=1">Jobs created</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="/?job=2">Jobs completed</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="/?job=3">Jobs accepted</a>
-	  </li>
-	  <li class="nav-item">
-	    <a class="nav-link" href="/?job=4">Jobs ongoing</a>
-	  </li>
-	</ul>
-
-	<% if @jobs == nil %>
-		<h3>Click Show above to view tabs</h3>
-	<% else %>
-		<table>
-			<thead>
-		    <tr>
-		      <th>Job ID</th>
-		      <th>Job Title</th>
-		      <th>Package picture</th>
-		      <th>Job start location</th>
-		      <th>Job end location</th>
-		      <th>Job date pickup</th>
-		      <th>Job date delivery</th>
-		      <th>Job accepted</th>
-		      <th>Job completed</th>
-		      <th>Job creator</th>
-		      <th>Job acceptor</th>
-		    </tr>
-		  </thead>
-
-			<tbody>
-				<% @jobs.each do |job| %>
+  <div class="row">
+    <div class="col-2">
+		    <%= link_to 'Edit profile', edit_user_registration_path, class:"btn btn-info"%>
+		    <%= link_to 'New Job', new_job_path, class:"btn btn-info" %>
+			<table>
+			  <tbody>
+			    <% if current_user.profile_picture == nil %>
+		        <h3>No profile picture, please upload</h3>
+		      <% else %>
+		        <tr>
+		          <td><%= image_tag current_user.profile_picture, width: 300 %></td>
+		        </tr>
+		      <% end %>
 		      <tr>
-		        <td><%= job.id %></td>
-		        <td><%= job.title %></td>
-              <% if job.package_picture == nil %>
-		        <td>No package picture</td>
-              <% else %>
-		        <td><%= image_tag job.package_picture, width: 150 %></td>
-              <% end %>
-		        <td><%= job.start_location %></td>
-		        <td><%= job.end_location %></td>
-		        <td><%= job.date_pickup %></td>
-		        <td><%= job.date_delivery %></td>
-		        <td><%= job.accepted %></td>
-		        <td><%= job.completed %></td>
-		        <td><%= job.user.username %></td>
-              <% if job.acceptor == nil%>
-            <td>No acceptors yet</td>
-              <% else %>
-		        <td><%= job.acceptor.username %></td>
-              <% end %>
-            <td><%= link_to 'Show', job %></td>
-            <td><%= link_to 'Edit', edit_job_path(job) %></td>
-            <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		        <td>Email address <%= current_user.email %></td>
 		      </tr>
-		    <% end %>
-		  </tbody>
-	</table>
-	<% end %>
-<%= link_to 'Log out', destroy_user_session_url, method: :delete %>
+		      <tr>
+		      	<td><%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-info" %></td>
+		      </tr>
+			  </tbody>
+			</table>
+	  </div>
+    <div class="col-10">
+      <ul class="nav nav-tabs">
+			  <li class="nav-item">
+			    <a class="nav-link <%=active_class('/?job=1')%>" href="/?job=1"><strong>Jobs created</strong></a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link <%=active_class('/?job=2')%>" href="/?job=2"><strong>Jobs accepted</strong></a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link <%=active_class('/?job=3')%>" href="/?job=3"><strong>Jobs completed</strong></a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link <%=active_class('/?job=4')%>" href="/?job=4"><strong>Jobs ongoing</strong></a>
+			  </li>
+			</ul>
+			<% if @jobs == nil %>
+				<h3>Click Show above to view tabs</h3>
+			<% else %>
+				<table class="table table-bordered">
+					<thead>
+				    <tr class="text-center">
+				      <th>Job Title</th>
+				      <th>Package picture</th>
+				      <th>Job start location</th>
+				      <th>Job end location</th>
+				      <th>Job date pickup</th>
+				      <th>Job date delivery</th>
+				      <th>Job accepted</th>
+				      <th>Job completed</th>
+				      <th>Job creator</th>
+				      <th>Job acceptor</th>
+				      <th class="align-middle" colspan="3">Action buttons</th>
+				    </tr>
+				  </thead>
+
+					<tbody>
+						<% @jobs.each do |job| %>
+				      <tr>
+				        <td><%= job.title %></td>
+		              <% if job.package_picture == nil %>
+				        <td>No package picture</td>
+		              <% else %>
+				        <td><%= image_tag job.package_picture, width: 150 %></td>
+		              <% end %>
+				        <td><%= job.start_location %></td>
+				        <td><%= job.end_location %></td>
+				        <td><%= job.date_pickup %></td>
+				        <td><%= job.date_delivery %></td>
+				        <td><%= job.accepted %></td>
+				        <td><%= job.completed %></td>
+				        <td><%= job.user.username %></td>
+		              <% if job.acceptor == nil%>
+		            <td>No acceptors yet</td>
+		              <% else %>
+				        <td><%= job.acceptor.username %></td>
+		              <% end %>
+		            <td><%= link_to 'Show', job %></td>
+		            <td><%= link_to 'Edit', edit_job_path(job) %></td>
+		            <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				      </tr>
+				    <% end %>
+				  </tbody>
+			</table>
+			<% end %>
+    </div>
+  </div>
+</div>
 
 <% else %>
 <h1>Users</h1>
-<table>
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>User ID</th>
@@ -112,6 +120,6 @@
     <% end %>
   </tbody>
 </table>
-<%= link_to 'Log in', new_user_session_url %>
-<%= link_to 'Sign up', new_user_registration_path %>
+<%= link_to 'Log in', new_user_session_url, class:"btn btn-info" %>
+<%= link_to 'Sign up', new_user_registration_path, class:"btn btn-info" %>
 <% end %>
