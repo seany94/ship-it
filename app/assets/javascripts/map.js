@@ -1,9 +1,9 @@
 var SINGAPORE_LOCATION_OBJECT = {
-    zoom: 13,
-    center: {
-        lat: 1.3,
-        lng: 103.851959
-    }
+  zoom: 13,
+  center: {
+    lat: 1.3,
+    lng: 103.851959
+  }
 };
 var map, service;
 
@@ -26,7 +26,6 @@ function initMap(){
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
         initMarkers();
     })
-
     // Empty function for now - but this reacts to when the map viewport is moved around
     // map.addListener('bounds_changed', function () {
     // });
@@ -37,33 +36,46 @@ function initMarkers(){
     gon.jobs.forEach(job => {
         var placeQueryParams = {
             query: job.start_location,
-            fields: ['name', 'geometry']
+            fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
         };
         service.findPlaceFromQuery(placeQueryParams, (results, status) =>{
             if (status === google.maps.places.PlacesServiceStatus.OK){
-                marker = newMarker(results[0]);
-
+                let infoWindow = newInfoWindow(results[0]);
+                let marker = newMarker(results[0]);
+                marker.addListener('click', () => {
+                    infoWindow.open(map, marker);
+                })
             }
         });
     })
 }
 
-function newMarker(result){
-    let iconOptions = {
-        url: 'https://image.flaticon.com/icons/svg/46/46046.svg',
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(30, 30)
-    }
-    return new google.maps.Marker({
-        map: map,
-        title: result.name,
-        icon: iconOptions,
-        position: result.geometry.location
+function newInfoWindow(result){
+    return new google.maps.InfoWindow({
+        content: `
+            <img src=${result.photos[0].getUrl()} style="width:200px; display:block"/>
+            <p>Name: ${result.name}</p>
+            <p>Address: ${result.formatted_address}</p>
+        `
     });
 }
 
-function fillInAddress(){
-    var place = autocompleteStart.getPlace();
+function newMarker(result) {
+  let iconOptions = {
+    url: "https://image.flaticon.com/icons/svg/46/46046.svg",
+    size: new google.maps.Size(71, 71),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(17, 34),
+    scaledSize: new google.maps.Size(30, 30)
+  };
+  return new google.maps.Marker({
+    map: map,
+    title: result.name,
+    icon: iconOptions,
+    position: result.geometry.location
+  });
+}
+
+function fillInAddress() {
+  var place = autocompleteStart.getPlace();
 }
