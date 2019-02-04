@@ -1,5 +1,5 @@
 <%#<%= form_with(model: job, local: true) do |form| %>
-<%= form_with scope: :job, url: jobs_path, local: true do |form| %>
+<%= form_with scope: :job, model: @job, local: true do |form| %>
 
   <% if job.errors.any? %>
     <div id="error_explanation">

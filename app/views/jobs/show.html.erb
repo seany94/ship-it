@@ -5,7 +5,6 @@
   <%= @job.title %>
 </p>
 
-
 <p>
   <strong>Start location:</strong>
   <%= @job.start_location %>
@@ -27,19 +26,9 @@
 </p>
 
 <p>
-  <strong>Accepted:</strong>
-  <%= @job.accepted %>
-</p>
-
-<p>
-  <strong>Completed:</strong>
-  <%= @job.completed %>
-</p>
-
-<p>
   <strong>Created by user:</strong>
   <%= @job.user.username %>
 </p>
 
 <%= link_to 'Edit', edit_job_path(@job) %> |
-<%= link_to 'Back', jobs_path %>
+<%= link_to 'Back', root_path %>

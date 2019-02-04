@@ -67,6 +67,9 @@
               <% else %>
 		        <td><%= job.acceptor.username %></td>
               <% end %>
+            <td><%= link_to 'Show', job %></td>
+            <td><%= link_to 'Edit', edit_job_path(job) %></td>
+            <td><%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 		      </tr>
 		    <% end %>
 		  </tbody>
