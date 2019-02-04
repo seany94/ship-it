@@ -1,7 +1,7 @@
 <% provide :head_tags do %>
     <%# Gon gem transfers rails hash data to JS %>
     <%= include_gon %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ Rails.application.credentials.google_maps_api_key + '&libraries=places&callback=initMap'%>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap'%>
 <% end %>
 
 <div id="map">
