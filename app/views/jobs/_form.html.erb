@@ -42,7 +42,13 @@
     <%= form.hidden_field :acceptor_id, :value => nil %>
   </div>
 
+  <div class="field">
+    <%= form.hidden_field :accepted, :value => false %>
+  </div>
 
+  <div class="field">
+    <%= form.hidden_field :completed, :value => false %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>
