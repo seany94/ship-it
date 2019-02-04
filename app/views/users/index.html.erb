@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
 <h1>User</h1>
   <div>
-    Signed in as... <%= current_user.username %> 
+    Signed in as... <%= current_user.username %>
     <%= link_to 'Edit profile', edit_user_registration_path %>
     <%= link_to 'New Job', new_job_path %>
   </div>
@@ -20,10 +20,20 @@
 	  </tbody>
 	</table>
 
-<%= form_tag("/", method: "get") do %>
-	<%= select_tag(:job, options_for_select([['Job created', 1], ['Job accepted', 2], ['Job completed', 3], ['Job ongoing', 4]])) %>
-	<%= submit_tag("Show") %>
-<% end %>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item">
+	    <a class="nav-link" href="/?job=1">Jobs created</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/?job=2">Jobs completed</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/?job=3">Jobs accepted</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="/?job=4">Jobs ongoing</a>
+	  </li>
+	</ul>
 
 	<% if @jobs == nil %>
 		<h3>Click Show above to view tabs</h3>
