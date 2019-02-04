@@ -5,7 +5,7 @@ var SINGAPORE_LOCATION_OBJECT = {
     lng: 103.851959
   }
 };
-var map, service;
+var map, service, directionsRenderer, directionsService;
 
 function initAutocomplete(){
     document.addEventListener('DOMContentLoaded', () => {
@@ -24,6 +24,9 @@ function initAutocomplete(){
 function initMap(){
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
+        directionsService = new google.maps.DirectionsService;
+        directionsRenderer = new google.maps.DirectionsRenderer;
+        directionsRenderer.setMap(map);
         initMarkers();
     })
     // Empty function for now - but this reacts to when the map viewport is moved around
@@ -34,28 +37,40 @@ function initMap(){
 function initMarkers(){
     service = new google.maps.places.PlacesService(map);
     gon.jobs.forEach(job => {
-        var placeQueryParams = {
-            query: job.start_location,
-            fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
-        };
-        service.findPlaceFromQuery(placeQueryParams, (results, status) =>{
-            if (status === google.maps.places.PlacesServiceStatus.OK){
-                let infoWindow = newInfoWindow(results[0]);
-                let marker = newMarker(results[0]);
-                marker.addListener('click', () => {
-                    infoWindow.open(map, marker);
-                })
-            }
+        let startLocationQueryParams = newQueryParams(job.start_location);
+        let endLocationQueryParams = newQueryParams(job.end_location);
+        service.findPlaceFromQuery(startLocationQueryParams, (sResults, sStatus) => {
+            service.findPlaceFromQuery(endLocationQueryParams, (eResults, eStatus) => {
+                if (sStatus === google.maps.places.PlacesServiceStatus.OK && 
+                    eStatus === google.maps.places.PlacesServiceStatus.OK){
+                        let infoWindow = newInfoWindow(sResults[0], eResults[0].name);
+                        let marker = newMarker(sResults[0]);
+                        marker.addListener('click', () => {
+                            showRoute(directionsRenderer, directionsService, sResults[0], eResults[0]);
+                            infoWindow.open(map, marker);
+                        })
+                }
+            })
         });
     })
 }
 
-function newInfoWindow(result){
+function newQueryParams(locationString){
+    return {
+        query: locationString,
+        fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
+    }
+}
+
+function newInfoWindow(result, endLocationString){
     return new google.maps.InfoWindow({
         content: `
-            <img src=${result.photos[0].getUrl()} style="width:200px; display:block"/>
-            <p>Name: ${result.name}</p>
-            <p>Address: ${result.formatted_address}</p>
+            <div class='info-window' end-location='${endLocationString}'>
+                <img src=${result.photos[0].getUrl()} style="width:200px; display:block"/>
+                <p>Name: ${result.name}</p>
+                <p>Start address: ${result.formatted_address}</p>
+                <p>End address: ${endLocationString}</p>
+            </div>
         `
     });
 }
@@ -76,6 +91,22 @@ function newMarker(result) {
   });
 }
 
-function fillInAddress() {
-  var place = autocompleteStart.getPlace();
+function showRoute(directionsRenderer, directionsService, startPlace, endPlace){
+    let travelMode = 'DRIVING' //WALKING, BICYCLING, TRANSIT
+    let options = {
+        origin: {placeId: startPlace.place_id},
+        destination: {placeId: endPlace.place_id},
+        travelMode: travelMode
+    }
+    directionsService.route(options, (response, status) => {
+        if (status == 'OK') {
+            directionsRenderer.setDirections(response);
+        } else {
+            alert('Directions failed because ' + status);
+        }
+    });
+}
+
+function fillInAddress(){
+    var place = autocompleteStart.getPlace();
 }
