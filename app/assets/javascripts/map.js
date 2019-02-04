@@ -1,9 +1,9 @@
 var SINGAPORE_LOCATION_OBJECT = {
-    zoom: 13,
-    center: {
-        lat: 1.3,
-        lng: 103.851959
-    }
+  zoom: 13,
+  center: {
+    lat: 1.3,
+    lng: 103.851959
+  }
 };
 var map, service;
 
@@ -60,22 +60,22 @@ function newInfoWindow(result){
     });
 }
 
-function newMarker(result){
-    let iconOptions = {
-        url: 'https://image.flaticon.com/icons/svg/46/46046.svg',
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(30, 30)
-    }
-    return new google.maps.Marker({
-        map: map,
-        title: result.name,
-        icon: iconOptions,
-        position: result.geometry.location
-    });
+function newMarker(result) {
+  let iconOptions = {
+    url: "https://image.flaticon.com/icons/svg/46/46046.svg",
+    size: new google.maps.Size(71, 71),
+    origin: new google.maps.Point(0, 0),
+    anchor: new google.maps.Point(17, 34),
+    scaledSize: new google.maps.Size(30, 30)
+  };
+  return new google.maps.Marker({
+    map: map,
+    title: result.name,
+    icon: iconOptions,
+    position: result.geometry.location
+  });
 }
 
-function fillInAddress(){
-    var place = autocompleteStart.getPlace();
+function fillInAddress() {
+  var place = autocompleteStart.getPlace();
 }

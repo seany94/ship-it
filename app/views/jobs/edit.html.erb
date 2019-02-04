@@ -2,7 +2,7 @@
 
 <% provide :head_tags do %>
 <meta name='turbolinks-visit-control' content='reload'>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=' + 'AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc' + '&libraries=places&callback=initAutocomplete'%>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=' + 'AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc' + '&libraries=places&callback=initAutocomplete', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
 <%= render 'editform', job: @job %>
