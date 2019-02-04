@@ -10,6 +10,7 @@ class JobsController < ApplicationController
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+    @job = Job.find(params[:id])
   end
 
   # GET /jobs/new
@@ -19,13 +20,15 @@ class JobsController < ApplicationController
 
   # GET /jobs/1/edit
   def edit
+    @job = Job.find(params[:id])
   end
 
   # POST /jobs
   # POST /jobs.json
   def create
     @job = Job.new(job_params)
-
+    @job.user_id = current_user.id
+        @job.acceptor_id = nil
     respond_to do |format|
       if @job.save
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
@@ -40,6 +43,7 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1
   # PATCH/PUT /jobs/1.json
   def update
+    @job = Job.find(params[:id])
     respond_to do |format|
       if @job.update(job_params)
         format.html { redirect_to @job, notice: 'Job was successfully updated.' }
@@ -73,6 +77,6 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id)
+      params.require(:job).permit(:title, :start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id, :acceptor_id)
     end
 end
