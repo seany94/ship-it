@@ -29,6 +29,14 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
     @job.user_id = current_user.id
         @job.acceptor_id = nil
+    uploaded_file = params[:job][:profile_picture].path
+    cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
+
+    #store this public_id value to the database
+    #cloudnary_file['public_id']
+
+    render json: cloudnary_file
+
     respond_to do |format|
       if @job.save
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
