@@ -1,8 +1,7 @@
-<% if user_signed_in? %>
 <div class="container m-0" style="max-width: 100%;">
   <div class="row">
     <div class="col">
-			<h1>Welcome <%= current_user.username %></h1>
+			<h1>Welcome to <%= @users.username %>'s profile</h1>
     </div>
   </div>
   <div class="row">
@@ -11,19 +10,24 @@
 		    <%= link_to 'New Job', new_job_path, class:"btn btn-info" %>
 			<table>
 			  <tbody>
-			    <% if current_user.profile_picture == nil %>
+			    <% if @users.profile_picture == nil %>
 		        <h3>No profile picture, please upload</h3>
 		      <% else %>
 		        <tr>
-		          <td><%= image_tag current_user.profile_picture, width: 300 %></td>
+		          <td><%= image_tag @users.profile_picture, width: 300 %></td>
 		        </tr>
 		      <% end %>
 		      <tr>
-		        <td>Email address <%= current_user.email %></td>
+		        <td>Email address <%= @users.email %></td>
 		      </tr>
 		      <tr>
-		      	<td><%= link_to 'Home', root_path, class:"btn btn-info" %>
-		      		<span></span><%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-info" %></td>
+						<% if user_signed_in? %>
+			      	<td><%= link_to 'Home', root_path, class:"btn btn-info" %>
+			      		<span></span><%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-info" %></td>
+			      <% else %>
+							<td><%= link_to 'Home', root_path, class:"btn btn-info" %>
+								<span></span><%= link_to 'Log in', new_user_session_url, class:"btn btn-info" %></td>
+		      	<% end %>
 		      </tr>
 			  </tbody>
 			</table>
@@ -31,16 +35,16 @@
     <div class="col-10">
       <ul class="nav nav-tabs">
 			  <li class="nav-item">
-			    <a class="nav-link <%=active_class('/?job=1')%>" href="/?job=1"><strong>Jobs created</strong></a>
+			    <a class="nav-link <%=active_class('/?job=1')%>" href="/users/<%=@users.id%>/?job=1"><strong>Jobs created</strong></a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link <%=active_class('/?job=2')%>" href="/?job=2"><strong>Jobs accepted</strong></a>
+			    <a class="nav-link <%=active_class('/?job=2')%>" href="/users/<%=@users.id%>/?job=2"><strong>Jobs accepted</strong></a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link <%=active_class('/?job=3')%>" href="/?job=3"><strong>Jobs completed</strong></a>
+			    <a class="nav-link <%=active_class('/?job=3')%>" href="/users/<%=@users.id%>/?job=3"><strong>Jobs completed</strong></a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link <%=active_class('/?job=4')%>" href="/?job=4"><strong>Jobs ongoing</strong></a>
+			    <a class="nav-link <%=active_class('/?job=4')%>" href="/users/<%=@users.id%>/?job=4"><strong>Jobs ongoing</strong></a>
 			  </li>
 			</ul>
 			<% if @jobs == nil %>
@@ -95,33 +99,3 @@
     </div>
   </div>
 </div>
-
-<% else %>
-<h1>Users</h1>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>User ID</th>
-      <th>Username</th>
-      <th>Profile picture</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.id %></td>
-        <td><%= user.username %></td>
-        <% if user.profile_picture == nil %>
-          <td>No profile picture, please upload</td>
-        <% else %>
-          <td><%= image_tag user.profile_picture, width: 300 %></td>
-        <% end %>
-        <td><%= link_to 'Show', user %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= link_to 'Log in', new_user_session_url, class:"btn btn-info" %>
-<%= link_to 'Sign up', new_user_registration_path, class:"btn btn-info" %>
-<% end %>

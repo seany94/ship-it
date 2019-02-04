@@ -21,6 +21,21 @@ class UsersController < ApplicationController
   end
 
   def show
+    @users = User.find(params[:id])
+    @jobs = nil
+    if params[:job] == '1'
+      @users = User.find(params[:id])
+      @jobs = Job.where(:user_id => @users)
+    elsif params[:job] == '2'
+      @users = User.find(params[:id])
+      @jobs = Job.where(:acceptor_id => @users)
+    elsif params[:job] == '3'
+      @users = User.find(params[:id])
+      @jobs = Job.where(:user_id => @users).or(Job.where(:acceptor_id => @users)).where(:completed => true)
+    elsif params[:job] == '4'
+      @users = User.find(params[:id])
+      @jobs = Job.where(:user_id => @users).or(Job.where(:acceptor_id => @users)).where(:completed => false)
+    end
   end
 
   def new
