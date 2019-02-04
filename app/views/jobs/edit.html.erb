@@ -1,7 +1,8 @@
 <h1>Editing Job</h1>
 
 <% provide :head_tags do %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+ 'AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc' + '&libraries=places&callback=initAutocomplete'%>
+<meta name='turbolinks-visit-control' content='reload'>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=' + 'AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc' + '&libraries=places&callback=initAutocomplete'%>
 <% end %>
 
 <%= render 'editform', job: @job %>
