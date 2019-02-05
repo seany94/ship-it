@@ -4,20 +4,6 @@ class UsersController < ApplicationController
 
   def home
     @users = User.all
-    @jobs = nil
-    if params[:job] == '1'
-      @users = User.all
-      @jobs = Job.where(:user_id => current_user.id)
-    elsif params[:job] == '2'
-      @users = User.all
-      @jobs = Job.where(:acceptor_id => current_user.id)
-    elsif params[:job] == '3'
-      @users = User.all
-      @jobs = Job.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true)
-    elsif params[:job] == '4'
-      @users = User.all
-      @jobs = Job.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => false)
-    end
   end
 
   def index
@@ -34,7 +20,10 @@ class UsersController < ApplicationController
       @jobs = Job.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true)
     elsif params[:job] == '4'
       @users = User.all
-      @jobs = Job.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => false)
+      @jobs = Job.where(:user_id => current_user.id).where(:completed => false)
+    elsif params[:job] == '5'
+      @users = User.all
+      @jobs = Job.where(:user_id => current_user.id).where(:acceptor_id => nil)
     end
   end
 
