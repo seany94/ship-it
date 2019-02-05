@@ -22,7 +22,7 @@
 		        <td>Email address <%= current_user.email %></td>
 		      </tr>
 		      <tr>
-		      	<td><%= link_to 'Home', root_path, class:"btn btn-info" %>
+		      	<td><%= link_to 'Users', users_path, class:"btn btn-info" %>
 		      		<span></span><%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-info" %></td>
 		      </tr>
 			  </tbody>

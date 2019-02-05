@@ -1,0 +1,33 @@
+<h1>Users</h1>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>User ID</th>
+      <th>Username</th>
+      <th>Profile picture</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <% if user.profile_picture == nil %>
+          <td>No profile picture, please upload</td>
+        <% else %>
+          <td><%= image_tag user.profile_picture, width: 300 %></td>
+        <% end %>
+        <td><%= link_to 'Show', user %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if user_signed_in? %>
+	<%= link_to 'Profile', root_path, class:"btn btn-info" %>
+	<%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-info" %>
+<% else %>
+	<%= link_to 'Log in', new_user_session_url, class:"btn btn-info" %>
+	<%= link_to 'Sign up', new_user_registration_path, class:"btn btn-info" %>
+<% end %>
