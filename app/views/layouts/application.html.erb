@@ -32,8 +32,19 @@
             <a class="nav-link" href="/map">Map</a>
           </li>
         </ul>
+        <% if user_signed_in? %>
+          <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-outline-primary my-2 my-sm-0" %>
+        <% else %>
+          <%= link_to 'Log In', new_user_session_url, class:"btn btn-outline-primary my-2 my-sm-0 mr-3", "data-toggle" => "modal", "data-target"=>"#login-modal" %>
+          <%= link_to 'Sign Up', new_user_registration_path, class:"btn btn-outline-primary my-2 my-sm-0", "data-toggle" => "modal", "data-target"=>"#signup-modal"  %>
+        <% end %>
       </div>
     </nav>
+    <% unless user_signed_in? %>
+      <%= render partial: 'devise/registrations/new' %>
+      <%= render partial: 'devise/sessions/new' %>
+    <% end %>
     <%= yield %>
+
   </body>
 </html>
