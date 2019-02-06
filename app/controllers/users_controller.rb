@@ -20,7 +20,7 @@ class UsersController < ApplicationController
       @jobs = Job.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true)
     elsif params[:job] == '4'
       @users = User.all
-      @jobs = Job.where(:user_id => current_user.id).where(:completed => false)
+      @jobs = Job.where(:user_id => current_user.id).where.not(:acceptor_id => nil).where(:completed => false)
     elsif params[:job] == '5'
       @users = User.all
       @jobs = Job.where(:user_id => current_user.id).where(:acceptor_id => nil)
