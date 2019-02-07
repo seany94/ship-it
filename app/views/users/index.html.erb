@@ -55,49 +55,35 @@
 			      </li>
 			    </ul>
 			  </div>
-			  <% else %>
 			  <% end %>
-			  <div class="card-group">
-					 <% @jobs.each do |job| %>
-					  <div class="card" style="width: 18rem;">
-						  <div class="card-body">
-						  	<% if job.package_picture == nil %>
-						        No package picture
-			            <% else %>
-						        <%= image_tag job.package_picture, width: 150 %>
-			            <% end %>
-						    <h5 class="card-title"><%= job.title %></h5>
-						    <p class="card-text">
-							    Start Location: <%= job.start_location %><br>
-					        End Location: <%= job.end_location %><br>
-					        Date Pickup: <%= job.date_pickup %><br>
-					        Date Delievery: <%= job.date_delivery %>
-				         </p></p>
-						  </div>
-						  <ul class="list-group list-group-flush">
-						    <li class="list-group-item">
-						    	<% if job.acceptor == nil%>
-					          No acceptors yet
-				          <% else %>
-						        <%= job.acceptor.username %>
-				          <% end %>
-			          </li>
-						    <li class="list-group-item">
-						    	<% if job.completed == false%>
-					          Not completed yet
-				          <% else %>
-						        Completed
-				          <% end %>
-			          </li>
-						    <li class="list-group-item">Created by: <%= job.user.username %></li>
-						  </ul>
-						  <div class="card-body">
-						    <a href="#" class="card-link">Creator Profile</a>
-						    <a href="#" class="card-link">Acceptor Profile</a>
-						  </div>
-						</div>
-					<% end %>
-				</div>
+				<% @jobs.each do |job| %>
+				  <div class="card text-left">
+					  <div class="card-body d-flex">
+					  	<div>
+					  		<% if job.package_picture == nil %>
+					        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150 %>
+		            <% else %>
+					        <%= image_tag job.package_picture, width: 150 %>
+		            <% end %>
+		          </div>
+							<div class="m-2">
+		            <h5 class="card-title d-inline">
+						    	<%= job.title %>
+		            </h5>
+					    	<p>
+			            Delivery from <%= job.start_location %> to <%= job.end_location %>
+			            <br>
+					        Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
+					      </p>
+					  		<% if job.acceptor_id == nil %>
+								  <div class="btn btn-primary">Pending</div>
+					  		<% elsif job.acceptor_id != nil %>
+								  <a href="" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+							  <% end %>
+					    </div>
+					  </div>
+					</div>
+				<% end %>
 			</div>
 			<% end %>
     </div>
