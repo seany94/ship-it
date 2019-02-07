@@ -35,8 +35,8 @@ class JobsController < ApplicationController
     #store this public_id value to the database
     #cloudnary_file['public_id']
 
-    render json: cloudnary_file
-
+    @job.package_picture = cloudnary_file['secure_url']
+    
     respond_to do |format|
       if @job.save
         format.html { redirect_to @job, notice: 'Job was successfully created.' }
