@@ -1,10 +1,56 @@
-h3{
-    margin:0;
+// ========================================================
+//                    Universal Styling
+// ========================================================
+
+a:hover{
+    text-decoration: none;
+    color: inherit;
 }
-html{
-    height: 100%;
-}
+
 body{
     padding-top: 59px;
     height: 100%;
+}
+
+h3{
+    margin:0;
+}
+
+html{
+    height: 100%;
+}
+
+.wrapper{
+    height: 100%;
+}
+
+// ========================================================
+//                  Job-Targeted Styling
+// ========================================================
+
+div p{
+    font-size: 10pt;
+}
+
+.job-list{
+    width: 30%;
+    height: 100%;
+    float:left;
+    overflow: auto;
+}
+
+// ========================================================
+//                  User-Targeted Styling
+// ========================================================
+
+.profile-pic-thumbnail{
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+}
+
+.profile-pic-full{
+    width: 200px;
+    max-height: 300px;
+    overflow: hidden;
 }

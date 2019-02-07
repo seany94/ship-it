@@ -43,7 +43,7 @@
         <% if user_signed_in? %>
           <%= link_to root_path, id: "test" do %>
             <div class="flex-container mr-4">
-              <%= image_tag current_user.profile_picture, class: "rounded-circle", width: 36, height: 40 %>
+              <%= image_tag current_user.profile_picture, class: "profile-pic-thumbnail rounded-circle" %>
               <%= link_to edit_user_registration_path do %>
                 <%= current_user.username %>
               <% end %>

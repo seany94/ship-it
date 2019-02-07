@@ -30,6 +30,7 @@ function initMap() {
         directionsRenderer = new google.maps.DirectionsRenderer;
         directionsRenderer.setMap(map);
         initMarkers();
+        initJobCards();
     })
     // Empty function for now - but this reacts to when the map viewport is moved around
     // map.addListener('bounds_changed', function () {
@@ -54,6 +55,27 @@ function initMarkers() {
                 }
             })
         });
+    })
+}
+
+function initJobCards(){
+    document.querySelectorAll('.job-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.job-card').forEach(otherCard => {
+                otherCard.style.backgroundColor = "white";
+            })
+            card.style.backgroundColor = "#fffff0";
+            let startLocationQueryParams = newQueryParams(card.getAttribute('startloc'));
+            let endLocationQueryParams = newQueryParams(card.getAttribute('endloc'));
+            service.findPlaceFromQuery(startLocationQueryParams, (sResults, sStatus) => {
+                service.findPlaceFromQuery(endLocationQueryParams, (eResults, eStatus) => {
+                    if (sStatus === google.maps.places.PlacesServiceStatus.OK &&
+                        eStatus === google.maps.places.PlacesServiceStatus.OK) {
+                            showRoute(directionsRenderer, directionsService, sResults[0], eResults[0]);
+                    }
+                })
+            });
+        })
     })
 }
 
