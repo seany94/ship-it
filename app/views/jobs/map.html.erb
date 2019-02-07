@@ -4,7 +4,7 @@
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
-<div class="row align-items-start" style="height: 100%;">
+<div class="row" style="height: 100%;">
   <div class="col-3 overflow-auto" style="height: 100%; overflow-y:scroll;">
     <% @jobs.each do |job| %>
       <div class="card text-left" style="font-size: 12px;">
@@ -21,9 +21,11 @@
               <%= job.title %>
             </h5>
             <p>
-              Delivery from <%= job.start_location %> to <%= job.end_location %>
-              <br>
-              Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
+              Delivery from: <%= job.start_location %><br>
+              Delivery to: <%= job.end_location %>
+              <br><br>
+              Pickup by: <%= job.date_pickup %><br>
+              Deliver by: <%= job.date_delivery %>
             </p>
             <% if job.acceptor_id == nil %>
               <div class="btn btn-primary">Pending</div>
@@ -37,5 +39,5 @@
       </div>
     <% end %>
   </div>
-    <div class="col-9 overflow-hidden d-inline p-3" id="map" style="height: 100%;"></div>
+    <div class="col-9 overflow-hidden d-inline" id="map" style="height: 100%; width: 100%;"></div>
 </div>
