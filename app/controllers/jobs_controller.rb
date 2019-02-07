@@ -75,6 +75,7 @@ class JobsController < ApplicationController
 
   def map
     gon.jobs = Job.all
+    @jobs = Job.all
   end
 
   private

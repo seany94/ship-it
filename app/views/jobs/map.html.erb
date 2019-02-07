@@ -4,5 +4,38 @@
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
-<div id="map">
+<div class="row align-items-start" style="height: 100%;">
+  <div class="col-3 overflow-auto" style="height: 100%; overflow-y:scroll;">
+    <% @jobs.each do |job| %>
+      <div class="card text-left" style="font-size: 12px;">
+        <div class="card-body d-flex">
+          <div>
+            <% if job.package_picture == nil %>
+              <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 50 %>
+            <% else %>
+              <%= image_tag job.package_picture, width: 50 %>
+            <% end %>
+          </div>
+          <div class="m-2">
+            <h5 class="card-title">
+              <%= job.title %>
+            </h5>
+            <p>
+              Delivery from <%= job.start_location %> to <%= job.end_location %>
+              <br>
+              Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
+            </p>
+            <% if job.acceptor_id == nil %>
+              <div class="btn btn-primary">Pending</div>
+            <% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
+              <a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+            <% elsif job.acceptor_id != nil %>
+              <a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+    <div class="col-9 overflow-hidden d-inline p-3" id="map" style="height: 100%;"></div>
 </div>
