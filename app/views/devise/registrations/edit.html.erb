@@ -41,6 +41,11 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <br>
+  <%= flash[:recaptcha_error] %>
+	<%= recaptcha_tags %>
+	<br>
+
   <div class="actions">
     <%= f.submit "Update" %>
   </div>
