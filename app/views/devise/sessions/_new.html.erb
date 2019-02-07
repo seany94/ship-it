@@ -11,8 +11,7 @@
 
             <div class="modal-body">
                 <div>
-                    <h2>Log in</h2>
-                    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                    <%= form_for(resource, as: resource_name, url: session_path(resource_name), remote: true) do |f| %>
                         <div class="wrap">
                             <div class="field">
                                 <%= f.label :email %><br />
