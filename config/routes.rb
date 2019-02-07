@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :jobs
-  devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_for :users, :controllers => { registrations: 'registrations' , sessions: 'sessions' }
   root 'users#index'
   get '/users' => 'users#home', as: 'users'
   get '/users/:id' => 'users#show', as: 'user'
