@@ -33,6 +33,12 @@
           </li>
         </ul>
         <% if user_signed_in? %>
+          <%= link_to root_path, id: "test" do %>
+            <div class="flex-container mr-4">
+              <%= image_tag current_user.profile_picture, class: "rounded-circle", width: 36 %>
+              <%= current_user.username %>
+            </div>
+          <% end %>
           <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-outline-primary my-2 my-sm-0" %>
         <% else %>
           <%= link_to 'Log In', new_user_session_url, class:"btn btn-outline-primary my-2 my-sm-0 mr-3", "data-toggle" => "modal", "data-target"=>"#login-modal" %>
