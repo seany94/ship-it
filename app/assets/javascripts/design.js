@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     setActiveNavItem();
+    $(login_new_user).on('ajax:error', responseHandler)
 });
+
+function responseHandler(response){
+    $(login_new_user).prepend('<div class="alert alert-danger">' + response.detail[0].error + '</div>');
+}
 
 function getRouteString(windowInstance, urlString){
     return urlString.split(windowInstance.location.origin).join('').split('/')[1];
