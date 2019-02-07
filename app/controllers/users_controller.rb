@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     @jobs = nil
     if params[:job] == '1'
       @users = User.all
-      @jobs = Job.where(:user_id => current_user.id)
+      @jobs = Job.where(:user_id => current_user.id).where(:completed => false)
     elsif params[:job] == '2'
       @users = User.all
       @jobs = Job.where(:acceptor_id => current_user.id)
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @jobs = nil
     if params[:job] == '1'
       @users = User.find(params[:id])
-      @jobs = Job.where(:user_id => @users)
+      @jobs = Job.where(:user_id => @users).where(:completed => false)
     elsif params[:job] == '2'
       @users = User.find(params[:id])
       @jobs = Job.where(:acceptor_id => @users)

@@ -79,6 +79,8 @@
 						      </p>
 						  		<% if job.acceptor_id == nil %>
 									  <div class="btn btn-primary">Pending</div>
+									<% elsif job.acceptor_id != nil and job.user.username != @users.username%>
+									  <a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 						  		<% elsif job.acceptor_id != nil %>
 									  <a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
 								  <% end %>
