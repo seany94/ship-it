@@ -4,6 +4,6 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :jobs
+  has_many :jobs, dependent: :delete_all
   # has_one_attached :profile_picture
 end

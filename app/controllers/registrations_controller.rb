@@ -30,6 +30,12 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    @user = current_user
+    Job.where(:acceptor_id => @user.id).update_all(:acceptor_id => nil)
+    Job.where(:acceptor_id => @user.id).update_all(:accepted => false)
+    super
+  end
 
   private
 
