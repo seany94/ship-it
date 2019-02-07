@@ -31,7 +31,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = current_user
     Job.where(:acceptor_id => @user.id).update_all(:acceptor_id => nil)
     Job.where(:acceptor_id => @user.id).update_all(:accepted => false)
     super
