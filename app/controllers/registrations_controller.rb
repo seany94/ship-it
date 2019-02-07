@@ -2,44 +2,15 @@ class RegistrationsController < Devise::RegistrationsController
 
   prepend_before_action :check_captcha, only: [:create]
 
-  # def create
-  #   @user = User.new(sign_up_params)
-  #   byebug
-  #   uploaded_file = params[:user][:profile_picture].path
-  #   cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
-
-  #   #store this public_id value to the database
-  #   #cloudnary_file['public_id']
-
-  #   @user.profile_picture = cloudnary_file['secure_url']
-  #   byebug
-
-
-  #   respond_to do |format|
-  #     if @user.save
-  #       format.html { redirect_to @user, notice: 'You have signed up successfully created.' }
-  #       format.json { render :show, status: :created, location: @user }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @user.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
-
-
   def create
     @user = User.new(sign_up_params)
 
 
     uploaded_file = params[:user][:profile_picture].path
     cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
-    #store this public_id value to the database
-    #cloudnary_file['public_id']
 
     @user.profile_picture = cloudnary_file['secure_url']
 
-
-    byebug
     @user.save
     yield @user if block_given?
     if @user.persisted?
@@ -71,22 +42,8 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
-
-
-
   def sign_up_params
-
     params.require(:user).permit(:username, :profile_picture, :email, :password, :password_confirmation)
-
-        # @user = User.new(params)
-
-    # uploaded_file = params[:user][:profile_picture].path
-    # cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
-
-    #store this public_id value to the database
-    #cloudnary_file['public_id']
-# byebug
-#     params[:user][:profile_picture] = cloudnary_file['secure_url']
   end
 
   def account_update_params
