@@ -56,9 +56,9 @@
 						  <div class="card-body d-flex">
 						  	<div>
 						  		<% if job.package_picture == nil %>
-						        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150 %>
+						        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
 			            <% else %>
-						        <%= image_tag job.package_picture, width: 150 %>
+						        <%= image_tag job.package_picture, width: 150, height: 150 %>
 			            <% end %>
 			          </div>
 								<div class="m-2">
