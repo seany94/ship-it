@@ -1,0 +1,18 @@
+development:
+  cloud_name: cashcloudinary
+  api_key: 641898493335342
+  api_secret: Eavg3aLXXRflimW8yCd5ZbWStEM
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: cashcloudinary
+  api_key: 641898493335342
+  api_secret: Eavg3aLXXRflimW8yCd5ZbWStEM
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: cashcloudinary
+  api_key: 641898493335342
+  api_secret: Eavg3aLXXRflimW8yCd5ZbWStEM
+  enhance_image_tag: true
+  static_file_support: false
