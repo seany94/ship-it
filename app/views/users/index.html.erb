@@ -43,48 +43,48 @@
 			<% if @jobs == nil %>
 				<h3>Click tabs above to see different tabs</h3>
 			<% else %>
-			<div class="card text-center">
-				<% if request.original_fullpath == '/?job=1' || request.original_fullpath == '/?job=4' || request.original_fullpath == '/?job=5'%>
-			  <div class="card-header">
-			    <ul class="nav nav-tabs card-header-tabs">
-			      <li class="nav-item">
-			        <a class="nav-link <%=active_class('/?job=4')%>" href="/?job=4">Pending completion</a>
-			      </li>
-			      <li class="nav-item">
-			        <a class="nav-link <%=active_class('/?job=5')%>" href="/?job=5">Pending acceptance</a>
-			      </li>
-			    </ul>
-			  </div>
-			  <% end %>
-				<% @jobs.each do |job| %>
-				  <div class="card text-left">
-					  <div class="card-body d-flex">
-					  	<div>
-					  		<% if job.package_picture == nil %>
-					        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150 %>
-		            <% else %>
-					        <%= image_tag job.package_picture, width: 150 %>
-		            <% end %>
-		          </div>
-							<div class="m-2">
-		            <h5 class="card-title d-inline">
-						    	<%= job.title %>
-		            </h5>
-					    	<p>
-			            Delivery from <%= job.start_location %> to <%= job.end_location %>
-			            <br>
-					        Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
-					      </p>
-					  		<% if job.acceptor_id == nil %>
-								  <div class="btn btn-primary">Pending</div>
-					  		<% elsif job.acceptor_id != nil %>
-								  <a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
-							  <% end %>
-					    </div>
-					  </div>
-					</div>
-				<% end %>
-			</div>
+				<div class="card text-center">
+					<% if request.original_fullpath == '/?job=1' || request.original_fullpath == '/?job=4' || request.original_fullpath == '/?job=5'%>
+				  <div class="card-header">
+				    <ul class="nav nav-tabs card-header-tabs">
+				      <li class="nav-item">
+				        <a class="nav-link <%=active_class('/?job=4')%>" href="/?job=4">Pending completion</a>
+				      </li>
+				      <li class="nav-item">
+				        <a class="nav-link <%=active_class('/?job=5')%>" href="/?job=5">Pending acceptance</a>
+				      </li>
+				    </ul>
+				  </div>
+				  <% end %>
+					<% @jobs.each do |job| %>
+					  <div class="card text-left">
+						  <div class="card-body d-flex">
+						  	<div>
+						  		<% if job.package_picture == nil %>
+						        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150 %>
+			            <% else %>
+						        <%= image_tag job.package_picture, width: 150 %>
+			            <% end %>
+			          </div>
+								<div class="m-2">
+			            <h5 class="card-title d-inline">
+							    	<%= job.title %>
+			            </h5>
+						    	<p>
+				            Delivery from <%= job.start_location %> to <%= job.end_location %>
+				            <br>
+						        Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
+						      </p>
+						  		<% if job.acceptor_id == nil %>
+									  <div class="btn btn-primary">Pending</div>
+						  		<% elsif job.acceptor_id != nil %>
+									  <a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+								  <% end %>
+						    </div>
+						  </div>
+						</div>
+					<% end %>
+				</div>
 			<% end %>
     </div>
   </div>
