@@ -29,7 +29,7 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
     @job.user_id = current_user.id
         @job.acceptor_id = nil
-    uploaded_file = params[:job][:profile_picture].path
+    uploaded_file = params[:job][:package_picture].path
     cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
 
     #store this public_id value to the database
@@ -85,6 +85,6 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:title, :start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id, :acceptor_id)
+      params.require(:job).permit(:title, :package_picture, :start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id, :acceptor_id)
     end
 end
