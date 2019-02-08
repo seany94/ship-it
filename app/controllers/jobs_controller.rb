@@ -32,7 +32,7 @@ class JobsController < ApplicationController
         byebug
         if @job.package_picture == nil
           p 'profile pic is nil'
-          @job.package_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
+          @job.package_picture = 'https://media.istockphoto.com/vectors/box-icon-flat-design-style-parcel-simple-silhouette-modern-minimalist-vector-id1033754126?k=6&m=1033754126&s=612x612&w=0&h=X4dkpNwkjkh568SQ8FvFUo7aKEZT-kdxPUBcYTeUZRA='
         else
           p 'profile pic is not nil'
           uploaded_file = params[:job][:package_picture].path
