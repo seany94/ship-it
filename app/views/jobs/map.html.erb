@@ -3,7 +3,9 @@
     <%= include_gon %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
-
+<div class="h-25 text-center" >  
+  <button class="btn btn-outline-primary align-self-center m-auto" id="maptrigger">Show Map</button>
+</div>
 <div class="wrapper">
   <div class="job-list">
     <% @jobs.each do |job| %>
@@ -39,5 +41,7 @@
         <% end -%>
     <% end %>
   </div>
-  <div id="map"></div>
+  <div class="map-wrapper">
+    <div id="map"></div>
+  </div>
 </div>

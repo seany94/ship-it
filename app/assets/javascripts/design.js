@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
     setActiveNavItem();
-    $(login_new_user).on('ajax:error', responseHandler)
+    if (document.querySelector('#login_new_user')){
+        $(login_new_user).on('ajax:error', responseHandler)
+    }
+    if(document.querySelector('#maptrigger')){
+        $(maptrigger).on('click', addSlide);
+    }
 });
 
 function responseHandler(response){
@@ -21,3 +26,7 @@ function setActiveNavItem(){
         }
     })    
 }
+function addSlide() {
+    document.querySelector('.job-list').classList = 'job-list-transition';
+    document.querySelector('.map-wrapper').classList = 'map-wrapper-transition'
+  }
