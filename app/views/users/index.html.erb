@@ -58,7 +58,7 @@
 									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
 								</p>
 								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending</div>
+								<div class="btn btn-primary">Pending Acceptance</div>
 								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
 								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 								<% elsif job.acceptor_id != nil %>
@@ -70,7 +70,7 @@
 					<% end %>
 				</div>
 				<div class="collapse" id="tab2" data-parent="#accordionExample">
-					<% @jobs.where(:acceptor_id => current_user.id).each do |job| %>
+					<% @jobs.where(:acceptor_id => current_user.id).where.not(:completed => true).each do |job| %>
 					<div class="card text-left">
 						<div class="card-body d-flex">
 							<div>
@@ -90,7 +90,7 @@
 									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
 								</p>
 								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending</div>
+								<div class="btn btn-primary">Pending Acceptance</div>
 								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
 								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 								<% elsif job.acceptor_id != nil %>
@@ -122,7 +122,7 @@
 									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
 								</p>
 								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending</div>
+								<div class="btn btn-primary">Pending Acceptance</div>
 								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
 								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 								<% elsif job.acceptor_id != nil %>
