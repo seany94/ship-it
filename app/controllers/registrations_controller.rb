@@ -5,12 +5,16 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new(sign_up_params)
 
-
+        if @user.profile_picture == nil
+          p 'profile pic is nil'
+          @user.profile_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
+        else
+          p 'profile pic is not nil'
     uploaded_file = params[:user][:profile_picture].path
     cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
 
     @user.profile_picture = cloudnary_file['secure_url']
-
+        end
     @user.save
     yield @user if block_given?
     if @user.persisted?

@@ -29,13 +29,18 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
     @job.user_id = current_user.id
         @job.acceptor_id = nil
-    uploaded_file = params[:job][:package_picture].path
-    cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
-
-    #store this public_id value to the database
-    #cloudnary_file['public_id']
-
-    @job.package_picture = cloudnary_file['secure_url']
+        byebug
+        if @job.package_picture == nil
+          p 'profile pic is nil'
+          @job.package_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
+        else
+          p 'profile pic is not nil'
+          uploaded_file = params[:job][:package_picture].path
+          cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
+          #store this public_id value to the database
+          #cloudnary_file['public_id']
+          @job.package_picture = cloudnary_file['secure_url']
+        end
     
     respond_to do |format|
       if @job.save
