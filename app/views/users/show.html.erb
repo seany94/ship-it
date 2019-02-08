@@ -1,88 +1,88 @@
 <div class="container m-0" style="max-width: 100%;">
-  <div class="row">
-    <div class="col">
+	<div class="row">
+		<div class="col">
 			<h1>Welcome <%= @users.username %></h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-2">
 			<table>
-			  <tbody>
-			    <% if @users.profile_picture == nil %>
-		        <h3>No profile picture, please upload</h3>
-		      <% else %>
-		        <tr>
-		          <td><%= image_tag @users.profile_picture, width: 240, height: 380 %></td>
-		        </tr>
-		      <% end %>
-		      <tr>
-		        <td>Email address <%= @users.email %></td>
-		      </tr>
-		      <tr>
-		      </tr>
-			  </tbody>
+				<tbody>
+					<% if @users.profile_picture == nil %>
+					<h3>No profile picture, please upload</h3>
+					<% else %>
+					<tr>
+						<td><%= image_tag @users.profile_picture, width: 240, height: 380 %></td>
+					</tr>
+					<% end %>
+					<tr>
+						<td>Email address <%= @users.email %></td>
+					</tr>
+					<tr>
+					</tr>
+				</tbody>
 			</table>
-	  </div>
-    <div class="col-10">
-      <ul class="nav nav-tabs">
-			  <li class="nav-item">
-			    <a class='nav-link <%=active_class("/users/#{@users.id}?job=1")%>' href="/users/<%=@users.id%>?job=1"><strong>Jobs created</strong></a>
-			  </li>
-			  <li class="nav-item">
-			    <a class='nav-link <%=active_class("/users/#{@users.id}?job=2")%>' href="/users/<%=@users.id%>?job=2"><strong>Jobs accepted</strong></a>
-			  </li>
-			  <li class="nav-item">
-			    <a class='nav-link <%=active_class("/users/#{@users.id}?job=3")%>' href="/users/<%=@users.id%>?job=3"><strong>Jobs completed</strong></a>
-			  </li>
+		</div>
+		<div class="col-10">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class='nav-link <%=active_class("/users/#{@users.id}?job=1")%>' href="/users/<%=@users.id%>?job=1"><strong>Jobs created</strong></a>
+				</li>
+				<li class="nav-item">
+					<a class='nav-link <%=active_class("/users/#{@users.id}?job=2")%>' href="/users/<%=@users.id%>?job=2"><strong>Jobs accepted</strong></a>
+				</li>
+				<li class="nav-item">
+					<a class='nav-link <%=active_class("/users/#{@users.id}?job=3")%>' href="/users/<%=@users.id%>?job=3"><strong>Jobs completed</strong></a>
+				</li>
 			</ul>
 			<% if @jobs == nil %>
-				<h3>Click tabs above to see different tabs</h3>
+			<h3>Click tabs above to see different tabs</h3>
 			<% else %>
-				<div class="card text-center">
-					<% if request.original_fullpath == "/users/#{@users.id}?job=1" || request.original_fullpath == "/users/#{@users.id}?job=4" || request.original_fullpath == "/users/#{@users.id}?job=5"%>
-				  <div class="card-header">
-				    <ul class="nav nav-tabs card-header-tabs">
-				      <li class="nav-item">
-				        <a class='nav-link <%=active_class("/users/#{@users.id}?job=4")%>' href="/users/<%=@users.id%>?job=4">Pending completion</a>
-				      </li>
-				      <li class="nav-item">
-				        <a class='nav-link <%=active_class("/users/#{@users.id}?job=5")%>' href="/users/<%=@users.id%>?job=5">Pending acceptance</a>
-				      </li>
-				    </ul>
-				  </div>
-				  <% end %>
-					<% @jobs.each do |job| %>
-					  <div class="card text-left">
-						  <div class="card-body d-flex">
-						  	<div>
-						  		<% if job.package_picture == nil %>
-						        <%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
-			            <% else %>
-						        <%= image_tag job.package_picture, width: 150, height: 150 %>
-			            <% end %>
-			          </div>
-								<div class="m-2">
-			            <h5 class="card-title d-inline">
-							    	<%= job.title %>
-			            </h5>
-						    	<p>
-				            Delivery from <%= job.start_location %> to <%= job.end_location %>
-				            <br>
-						        Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
-						      </p>
-						  		<% if job.acceptor_id == nil %>
-									  <div class="btn btn-primary">Pending</div>
-									<% elsif job.acceptor_id != nil and job.user.username != @users.username%>
-									  <a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
-						  		<% elsif job.acceptor_id != nil %>
-									  <a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
-								  <% end %>
-						    </div>
-						  </div>
-						</div>
-					<% end %>
+			<div class="card text-center">
+				<% if request.original_fullpath == "/users/#{@users.id}?job=1" || request.original_fullpath == "/users/#{@users.id}?job=4" || request.original_fullpath == "/users/#{@users.id}?job=5"%>
+				<div class="card-header">
+					<ul class="nav nav-tabs card-header-tabs">
+						<li class="nav-item">
+							<a class='nav-link <%=active_class("/users/#{@users.id}?job=4")%>' href="/users/<%=@users.id%>?job=4">Pending completion</a>
+						</li>
+						<li class="nav-item">
+							<a class='nav-link <%=active_class("/users/#{@users.id}?job=5")%>' href="/users/<%=@users.id%>?job=5">Pending acceptance</a>
+						</li>
+					</ul>
 				</div>
+				<% end %>
+				<% @jobs.each do |job| %>
+				<div class="card text-left">
+					<div class="card-body d-flex">
+						<div>
+							<% if job.package_picture == nil %>
+							<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
+							<% else %>
+							<%= image_tag job.package_picture, width: 150, height: 150 %>
+							<% end %>
+						</div>
+						<div class="m-2">
+							<h5 class="card-title d-inline">
+								<%= job.title %>
+							</h5>
+							<p>
+								Delivery from <%= job.start_location %> to <%= job.end_location %>
+								<br>
+								Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
+							</p>
+							<% if job.acceptor_id == nil %>
+							<div class="btn btn-primary">Pending</div>
+							<% elsif job.acceptor_id != nil and job.user.username != @users.username%>
+							<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+							<% elsif job.acceptor_id != nil %>
+							<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+							<% end %>
+						</div>
+					</div>
+				</div>
+				<% end %>
+			</div>
 			<% end %>
-    </div>
-  </div>
+		</div>
+	</div>
 </div>
