@@ -11,7 +11,6 @@ class CreateJobs < ActiveRecord::Migration[5.2]
       t.boolean :completed
       t.references :user, foreign_key: true
       t.integer :acceptor_id
-
       t.timestamps
     end
   end
