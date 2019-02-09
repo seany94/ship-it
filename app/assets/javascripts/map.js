@@ -19,8 +19,20 @@ function initAutocomplete() {
         };
         autocompleteStart = new google.maps.places.Autocomplete(startLocationInput, options);
         autocompleteEnd = new google.maps.places.Autocomplete(endLocationInput, options);
-        autocompleteStart.addListener('place_changed', fillInAddress);
-        autocompleteEnd.addListener('place_changed', fillInAddress);
+        autocompleteStart.addListener('place_changed', () => {
+            if (document.getElementById('job_start_lat')){
+                let place = autocompleteStart.getPlace();
+                document.getElementById('job_start_lat').value = place.geometry.location.lat();
+                document.getElementById('job_start_long').value = place.geometry.location.lng();
+            }
+        });
+        autocompleteEnd.addListener('place_changed', () => {
+            if (document.getElementById('job_end_lat')){
+                let place = autocompleteEnd.getPlace();
+                document.getElementById('job_end_lat').value = place.geometry.location.lat();
+                document.getElementById('job_end_long').value = place.geometry.location.lng();
+            }
+        });
     })
 }
 
@@ -36,7 +48,7 @@ function initMap() {
 }
 
 function initMarkersAndRoute(){
-    markers = [];
+    clearMarkers();
     let startLocationQueryParams = newQueryParams(document.getElementById('job_start_location').value);
     let endLocationQueryParams = newQueryParams(document.getElementById('job_end_location').value)
     pushMarker(startLocationQueryParams, 'Start');
@@ -51,8 +63,15 @@ function pushMarker(queryParams, markerLabel){
             marker.addListener('click', () => {
                 infoWindow.open(map, marker);
             })
+            markers.push(marker)
         }
     });
+}
+
+function clearMarkers(){
+    markers.forEach(marker =>{
+        marker.setMap(null);
+    })
 }
 
 function initJobCards(){
@@ -90,7 +109,7 @@ function newInfoWindow(result, endLocationString) {
     }
     return new google.maps.InfoWindow({
         content: `
-            <div class='info-window' end-location='${endLocationString}'>
+            <div class='info-window' end-location='${endLocationString}'>place.geometry.location.lat() + ", " + place.geometry.location.lng()
                 <img src=${imgSrc} style="width:200px; display:block" alt="No image found"/>
                 <p>Name: ${result.name}</p>
                 <p>Start address: ${result.formatted_address}</p>
@@ -128,8 +147,4 @@ function showRoute(directionsRenderer, directionsService, startPlace, endPlace) 
             alert('Directions failed because ' + status);
         }
     });
-}
-
-function fillInAddress() {
-    var place = autocompleteStart.getPlace();
 }

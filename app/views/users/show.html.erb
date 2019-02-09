@@ -12,7 +12,7 @@
 		        <h3>No profile picture, please upload</h3>
 		      <% else %>
 		        <tr>
-		          <td><%= image_tag @users.profile_picture, width: 240, height: 380 %></td>
+		          <td><%= image_tag @users.profile_picture, class: 'profile-pic-full' %></td>
 		        </tr>
 		      <% end %>
 		      <tr>
