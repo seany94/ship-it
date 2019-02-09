@@ -6,6 +6,7 @@ var SINGAPORE_LOCATION_OBJECT = {
     }
 };
 var map, service, directionsRenderer, directionsService;
+var markers =[];
 
 function initAutocomplete() {
     document.addEventListener('DOMContentLoaded', () => {
@@ -26,36 +27,32 @@ function initAutocomplete() {
 function initMap() {
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
+        service = new google.maps.places.PlacesService(map);
         directionsService = new google.maps.DirectionsService;
         directionsRenderer = new google.maps.DirectionsRenderer;
         directionsRenderer.setMap(map);
-        initMarkers();
         initJobCards();
     })
-    // Empty function for now - but this reacts to when the map viewport is moved around
-    // map.addListener('bounds_changed', function () {
-    // });
 }
 
-function initMarkers() {
-    service = new google.maps.places.PlacesService(map);
-    gon.jobs.forEach(job => {
-        let startLocationQueryParams = newQueryParams(job.start_location);
-        let endLocationQueryParams = newQueryParams(job.end_location);
-        service.findPlaceFromQuery(startLocationQueryParams, (sResults, sStatus) => {
-            service.findPlaceFromQuery(endLocationQueryParams, (eResults, eStatus) => {
-                if (sStatus === google.maps.places.PlacesServiceStatus.OK &&
-                    eStatus === google.maps.places.PlacesServiceStatus.OK) {
-                    let infoWindow = newInfoWindow(sResults[0], eResults[0].name);
-                    let marker = newMarker(sResults[0]);
-                    marker.addListener('click', () => {
-                        showRoute(directionsRenderer, directionsService, sResults[0], eResults[0]);
-                        infoWindow.open(map, marker);
-                    })
-                }
+function initMarkersAndRoute(){
+    markers = [];
+    let startLocationQueryParams = newQueryParams(document.getElementById('job_start_location').value);
+    let endLocationQueryParams = newQueryParams(document.getElementById('job_end_location').value)
+    pushMarker(startLocationQueryParams, 'Start');
+    pushMarker(endLocationQueryParams, 'End');
+}
+
+function pushMarker(queryParams, markerLabel){
+    service.findPlaceFromQuery(queryParams, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            let infoWindow = newInfoWindow(results[0], results[0].name);
+            let marker = newMarker(results[0], markerLabel);
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
             })
-        });
-    })
+        }
+    });
 }
 
 function initJobCards(){
@@ -87,10 +84,14 @@ function newQueryParams(locationString) {
 }
 
 function newInfoWindow(result, endLocationString) {
+    let imgSrc = 'NA'
+    if (result.photos){
+        imgSrc = result.photos[0].getUrl();
+    }
     return new google.maps.InfoWindow({
         content: `
             <div class='info-window' end-location='${endLocationString}'>
-                <img src=${result.photos[0].getUrl()} style="width:200px; display:block"/>
+                <img src=${imgSrc} style="width:200px; display:block" alt="No image found"/>
                 <p>Name: ${result.name}</p>
                 <p>Start address: ${result.formatted_address}</p>
                 <p>End address: ${endLocationString}</p>
@@ -99,18 +100,12 @@ function newInfoWindow(result, endLocationString) {
     });
 }
 
-function newMarker(result) {
-    let iconOptions = {
-        url: "https://image.flaticon.com/icons/svg/46/46046.svg",
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(30, 30)
-    };
+function newMarker(result, markerLabel) {
     return new google.maps.Marker({
         map: map,
         title: result.name,
-        icon: iconOptions,
+        label: markerLabel,
+        // icon: iconOptions,
         position: result.geometry.location
     });
 }

@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     setActiveNavItem();
     if (document.querySelector('#login_new_user')){
-        $(login_new_user).on('ajax:error', responseHandler)
+        $(login_new_user).on('ajax:error', loginAjaxHandler)
     }
     if(document.querySelector('#maptrigger')){
         $(maptrigger).on('click', addSlide);
+        $(maptrigger).on('click', initMarkersAndRoute);
     }
 });
 
-function responseHandler(response){
+function loginAjaxHandler(response){
     $(login_new_user).prepend('<div class="alert alert-danger">' + response.detail[0].error + '</div>');
 }
 
@@ -26,7 +27,7 @@ function setActiveNavItem(){
         }
     })    
 }
-function addSlide() {
-    document.querySelector('.job-list').classList = 'job-list-transition';
-    document.querySelector('.map-wrapper').classList = 'map-wrapper-transition'
-  }
+function addSlide(){
+    document.querySelector('#job-list').classList = 'job-list-transition';
+    document.querySelector('#map-wrapper').classList = 'map-wrapper-transition'
+}

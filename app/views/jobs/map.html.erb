@@ -1,13 +1,16 @@
 <% provide :head_tags do %>
     <%# Gon gem transfers rails hash data to JS %>
+    <script>initAutocomplete()</script>
     <%= include_gon %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
-<div class="h-25 text-center" >  
+  <input type="text" class="form-control w-50" placeholder="Start Address" id="job_start_location">
+  <input type="text" class="form-control w-50" placeholder="End Address" id="job_end_location">
+<div class="h-20 text-center" >  
   <button class="btn btn-outline-primary align-self-center m-auto" id="maptrigger">Show Map</button>
 </div>
 <div class="wrapper">
-  <div class="job-list">
+  <div class="job-list" id='job-list'>
     <% @jobs.each do |job| %>
           <%= content_tag :div, class: "card text-left job-card", startloc: job.start_location, endloc: job.end_location do -%>
         <div class="card-body d-flex">
@@ -41,7 +44,7 @@
         <% end -%>
     <% end %>
   </div>
-  <div class="map-wrapper">
+  <div class="map-wrapper" id="map-wrapper">
     <div id="map"></div>
   </div>
 </div>
