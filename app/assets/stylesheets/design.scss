@@ -78,8 +78,8 @@ div p{
 .map-wrapper-transition {
     width: 70%;
     height: 100%;
+    float: left;
     -webkit-transition: width 1s;
-    float:left;
 }
 
 .scale-down-hor-left {
