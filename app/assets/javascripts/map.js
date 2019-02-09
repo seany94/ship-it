@@ -26,10 +26,11 @@ function initAutocomplete() {
 function initMap() {
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
+        service = new google.maps.places.PlacesService(map);
         directionsService = new google.maps.DirectionsService;
         directionsRenderer = new google.maps.DirectionsRenderer;
         directionsRenderer.setMap(map);
-        initMarkers();
+        // initMarkers();
         initJobCards();
     })
     // Empty function for now - but this reacts to when the map viewport is moved around
@@ -38,7 +39,6 @@ function initMap() {
 }
 
 function initMarkers() {
-    service = new google.maps.places.PlacesService(map);
     gon.jobs.forEach(job => {
         let startLocationQueryParams = newQueryParams(job.start_location);
         let endLocationQueryParams = newQueryParams(job.end_location);
