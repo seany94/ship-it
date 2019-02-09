@@ -15,7 +15,6 @@ class CreateJobs < ActiveRecord::Migration[5.2]
       t.decimal :start_long
       t.decimal :end_lat
       t.decimal :end_long
-
       t.timestamps
     end
   end
