@@ -1,137 +1,130 @@
 <% if user_signed_in? %>
 <div class="container m-0" style="max-width: 100%;">
-	<div class="row">
-		<div class="col">
-			<h1>Welcome <%= current_user.username %></h1>
+	<div class="row text-center">
+		<div class="col mt-2">
+			<div class="shadow p-3 mb-5 bg-white rounded border border-info">
+				<h1>Welcome <%= current_user.username %></h1>
+				<% if current_user.profile_picture == nil %>
+				<%= image_tag 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png', class: 'profile-pic-full' %>
+				<% else %>
+				<%= image_tag current_user.profile_picture, class: 'profile-pic-full' %>
+				<% end %>
+				<div class="d-inline-block">
+					Email address <%= current_user.email %>
+					<br>
+					<a href="/jobs/new" class="btn btn-lg btn-primary" tabindex="-1" role="button" aria-disabled="true">Create Job</a>
+					<a href="/map" class="btn btn-lg btn-primary" tabindex="-1" role="button">Jobs Listing</a>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-2">
-			<table>
-				<tbody>
-					<% if current_user.profile_picture == nil %>
-					<h3>No profile picture, please upload</h3>
-					<% else %>
-					<tr>
-						<td><%= image_tag current_user.profile_picture, class: 'profile-pic-full' %></td>
-					</tr>
-					<% end %>
-					<tr>
-						<td>Email address <%= current_user.email %></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-10">
-			<a href="/jobs/new" class="btn btn-primary" tabindex="-1" role="button" aria-disabled="true">Create Job</a>
-			<a href="/map" class="btn btn-primary" tabindex="-1" role="button">Jobs Listing</a>
-			<div class="accordion" id="accordionExample">
-				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="collapse" href="#tab1" role="button" aria-expanded="false" aria-controls="collapseExample1"><strong>Jobs created</strong></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="collapse" href="#tab2" role="button" aria-expanded="false" aria-controls="collapseExample2"><strong>Jobs accepted</strong></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="collapse" href="#tab3" role="button" aria-expanded="false" aria-controls="collapseExample3"><strong>Jobs completed</strong></a>
-					</li>
-				</ul>
-				<div class="collapse" id="tab1" data-parent="#accordionExample">
-					<% @jobs.where(:user_id => current_user.id).where(:completed => false).each do |job| %>
-					<div class="card text-left">
-						<div class="card-body d-flex">
-							<div>
-								<% if job.package_picture == nil %>
-								<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
-								<% else %>
-								<%= image_tag job.package_picture, width: 150, height: 150 %>
-								<% end %>
-							</div>
-							<div class="m-2">
-								<h5 class="card-title d-inline">
-									<%= job.title %>
-								</h5>
-								<p>
-									Delivery from <%= job.start_location %> to <%= job.end_location %>
-									<br>
-									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
-								</p>
-								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending Acceptance</div>
-								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
-								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
-								<% elsif job.acceptor_id != nil %>
-								<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
-								<% end %>
+		<div class="col-12">
+			<div class="shadow p-3 mb-5 bg-white rounded border border-info">
+				<div class="accordion" id="accordionExample">
+					<ul class="nav nav-tabs justify-content-center">
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#tab1" role="button" aria-expanded="false" aria-controls="collapseExample1"><strong>Jobs created</strong></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#tab2" role="button" aria-expanded="false" aria-controls="collapseExample2"><strong>Jobs accepted</strong></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="collapse" href="#tab3" role="button" aria-expanded="false" aria-controls="collapseExample3"><strong>Jobs completed</strong></a>
+						</li>
+					</ul>
+					<div class="collapse" id="tab1" data-parent="#accordionExample">
+						<% @jobs.where(:user_id => current_user.id).where(:completed => false).each do |job| %>
+						<div class="card text-left">
+							<div class="card-body d-flex">
+								<div>
+									<% if job.package_picture == nil %>
+									<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
+									<% else %>
+									<%= image_tag job.package_picture, width: 150, height: 150 %>
+									<% end %>
+								</div>
+								<div class="m-2">
+									<h5 class="card-title d-inline text-info">
+										<%= job.title.capitalize %>
+									</h5>
+									<p>
+										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
+										<br>
+										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by </strong><%= job.date_delivery %>
+									</p>
+									<% if job.acceptor_id == nil %>
+									<div class="btn btn-primary">Pending Acceptance</div>
+									<% elsif job.acceptor_id != nil %>
+									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+									<% end %>
+								</div>
 							</div>
 						</div>
+						<% end %>
 					</div>
-					<% end %>
-				</div>
-				<div class="collapse" id="tab2" data-parent="#accordionExample">
-					<% @jobs.where(:acceptor_id => current_user.id).where.not(:completed => true).each do |job| %>
-					<div class="card text-left">
-						<div class="card-body d-flex">
-							<div>
-								<% if job.package_picture == nil %>
-								<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
-								<% else %>
-								<%= image_tag job.package_picture, width: 150, height: 150 %>
-								<% end %>
-							</div>
-							<div class="m-2">
-								<h5 class="card-title d-inline">
-									<%= job.title %>
-								</h5>
-								<p>
-									Delivery from <%= job.start_location %> to <%= job.end_location %>
-									<br>
-									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
-								</p>
-								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending Acceptance</div>
-								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
-								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
-								<% elsif job.acceptor_id != nil %>
-								<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
-								<% end %>
+					<div class="collapse" id="tab2" data-parent="#accordionExample">
+						<% @jobs.where(:acceptor_id => current_user.id).where.not(:completed => true).each do |job| %>
+						<div class="card text-left">
+							<div class="card-body d-flex">
+								<div>
+									<% if job.package_picture == nil %>
+									<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
+									<% else %>
+									<%= image_tag job.package_picture, width: 150, height: 150 %>
+									<% end %>
+								</div>
+								<div class="m-2">
+									<h5 class="card-title d-inline text-info">
+										<%= job.title.capitalize %>
+									</h5>
+									<p>
+										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
+										<br>
+										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+									</p>
+									<% if job.acceptor_id == nil %>
+									<div class="btn btn-primary">Pending Acceptance</div>
+									<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
+									<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+									<% end %>
+								</div>
 							</div>
 						</div>
+						<% end %>
 					</div>
-					<% end %>
-				</div>
-				<div class="collapse" id="tab3" data-parent="#accordionExample">
-					<% @jobs.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true).each do |job| %>
-					<div class="card text-left">
-						<div class="card-body d-flex">
-							<div>
-								<% if job.package_picture == nil %>
-								<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
-								<% else %>
-								<%= image_tag job.package_picture, width: 150, height: 150 %>
-								<% end %>
-							</div>
-							<div class="m-2">
-								<h5 class="card-title d-inline">
-									<%= job.title %>
-								</h5>
-								<p>
-									Delivery from <%= job.start_location %> to <%= job.end_location %>
-									<br>
-									Pickup by <%= job.date_pickup %> and deliver by <%= job.date_delivery %>
-								</p>
-								<% if job.acceptor_id == nil %>
-								<div class="btn btn-primary">Pending Acceptance</div>
-								<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
-								<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
-								<% elsif job.acceptor_id != nil %>
-								<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
-								<% end %>
+					<div class="collapse" id="tab3" data-parent="#accordionExample">
+						<% @jobs.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true).each do |job| %>
+						<div class="card text-left">
+							<div class="card-body d-flex">
+								<div>
+									<% if job.package_picture == nil %>
+									<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
+									<% else %>
+									<%= image_tag job.package_picture, width: 150, height: 150 %>
+									<% end %>
+								</div>
+								<div class="m-2">
+									<h5 class="card-title d-inline text-info">
+										<%= job.title.capitalize %>
+									</h5>
+									<p>
+										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
+										<br>
+										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+									</p>
+									<% if job.acceptor_id == nil %>
+									<div class="btn btn-primary">Pending Acceptance</div>
+									<% elsif job.acceptor_id != nil and job.user.username != current_user.username%>
+									<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+									<% elsif job.acceptor_id != nil %>
+									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+									<% end %>
+								</div>
 							</div>
 						</div>
+						<% end %>
 					</div>
-					<% end %>
 				</div>
 			</div>
 		</div>
