@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
     $('ul.nav li a').click(function() {
         if($(this).hasClass('active')){
             // Remove tab class if click the same tab again
@@ -10,6 +10,5 @@ $(document).ready(function() {
             // Add class to the tab that triggered the click event
             $(this).addClass('active');
         }
-
     });
 });
