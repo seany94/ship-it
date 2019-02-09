@@ -42,6 +42,22 @@
     <%= form.label :date_delivery %>
     <%= form.datetime_select :date_delivery %>
   </div>
+ 
+  <div class="field">
+    <%= form.hidden_field :start_lat, :value => nil %>
+  </div>  
+  
+  <div class="field">
+    <%= form.hidden_field :start_long, :value => nil %>
+  </div>
+
+  <div class="field">
+    <%= form.hidden_field :end_lat, :value => nil %>
+  </div>  
+  
+  <div class="field">
+    <%= form.hidden_field :end_long, :value => nil %>
+  </div>
 
   <div class="field">
     <%= form.hidden_field :acceptor_id, :value => nil %>

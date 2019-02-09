@@ -3,6 +3,6 @@
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initAutocomplete', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
- <%= render 'form', job: @job %>
-
+<%= render 'form', job: @job %>
+<p id="start-lat-long">Something</p>
 <%= link_to 'Back', root_path %>

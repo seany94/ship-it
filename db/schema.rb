@@ -26,6 +26,10 @@ ActiveRecord::Schema.define(version: 2019_02_01_071141) do
     t.boolean "completed"
     t.bigint "user_id"
     t.integer "acceptor_id"
+    t.decimal "start_lat"
+    t.decimal "start_long"
+    t.decimal "end_lat"
+    t.decimal "end_long"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_jobs_on_user_id"

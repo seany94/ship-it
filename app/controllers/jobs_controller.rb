@@ -29,13 +29,18 @@ class JobsController < ApplicationController
     @job = Job.new(job_params)
     @job.user_id = current_user.id
         @job.acceptor_id = nil
-    uploaded_file = params[:job][:package_picture].path
-    cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
-
-    #store this public_id value to the database
-    #cloudnary_file['public_id']
-
-    @job.package_picture = cloudnary_file['secure_url']
+        byebug
+        if @job.package_picture == nil
+          p 'profile pic is nil'
+          @job.package_picture = 'https://media.istockphoto.com/vectors/box-icon-flat-design-style-parcel-simple-silhouette-modern-minimalist-vector-id1033754126?k=6&m=1033754126&s=612x612&w=0&h=X4dkpNwkjkh568SQ8FvFUo7aKEZT-kdxPUBcYTeUZRA='
+        else
+          p 'profile pic is not nil'
+          uploaded_file = params[:job][:package_picture].path
+          cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
+          #store this public_id value to the database
+          #cloudnary_file['public_id']
+          @job.package_picture = cloudnary_file['secure_url']
+        end
     
     respond_to do |format|
       if @job.save
@@ -86,6 +91,6 @@ class JobsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def job_params
-      params.require(:job).permit(:title, :package_picture, :start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id, :acceptor_id)
+      params.require(:job).permit(:title, :package_picture, :start_location, :end_location, :date_pickup, :date_delivery, :accepted, :completed, :user_id, :acceptor_id, :start_lat, :start_long, :end_lat, :end_long)
     end
 end
