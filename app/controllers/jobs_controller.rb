@@ -56,15 +56,18 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1.json
   def update
     @job = Job.find(params[:id])
-    respond_to do |format|
-      if @job.update(job_params)
-        format.html { redirect_to @job, notice: 'Job was successfully updated.' }
-        format.json { render :show, status: :ok, location: @job }
-      else
-        format.html { render :edit }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
-      end
-    end
+    Job.where(:id => @job).update_all(:acceptor_id => current_user.id)
+    Job.where(:id => @job).update_all(:accepted => true)
+    redirect_to root_path
+    # respond_to do |format|
+    #   if @job.update(job_params)
+    #     format.html { redirect_to @job, notice: 'Job was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @job }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @job.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /jobs/1

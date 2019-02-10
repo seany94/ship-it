@@ -39,10 +39,10 @@
 						<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by </strong><%= job.date_delivery %>
 					</p>
 					<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
-					<a href="#" class="btn btn-primary">Accept Job</a>
+					<%= link_to 'Accept Job', job_path(job.id), method: :put, class:"btn btn-primary"%>
 				</div>
 			</div>
-			<% end -%>
+			<% end %>
 			<% end %>
 		</div>
 		<div class="map-wrapper" id="map-wrapper">
