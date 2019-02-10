@@ -5,73 +5,19 @@ var SINGAPORE_LOCATION_OBJECT = {
         lng: 103.838959
     }
 };
+var AUTOCOMPLETE_OPTIONS = {
+    componentRestrictions: {
+        country: 'sg'
+    }
+};
 var map, service, directionsRenderer, directionsService;
-var latLongArray, markers =[];
+var startLatLong, endLatLong, markers = [];
 
-
-function initAutocomplete() {
-    document.addEventListener('DOMContentLoaded', () => {
-        service = new google.maps.places.PlacesService(document.createElement('div'));
-        var startLocationInput = document.getElementById('job_start_location');
-        startLocationInput.addEventListener('keydown', e => {
-            if (e.keyCode == 13){
-                e.preventDefault();
-            }
-        })
-        var endLocationInput = document.getElementById('job_end_location');
-        endLocationInput.addEventListener('keydown', e => {
-            if (e.keyCode == 13){
-                e.preventDefault();
-            }
-        })
-        var options = {
-            componentRestrictions: {
-                country: 'sg'
-            }
-        };
-        let autocompleteStart = new google.maps.places.Autocomplete(startLocationInput, options);
-        let autocompleteEnd = new google.maps.places.Autocomplete(endLocationInput, options);
-        autocompleteStart.addListener('place_changed', () => {
-            if (document.getElementById('job_start_lat')){
-                let place = autocompleteStart.getPlace();
-                document.getElementById('job_start_lat').value = place.geometry.location.lat();
-                document.getElementById('job_start_long').value = place.geometry.location.lng();
-            }
-        });
-        autocompleteEnd.addListener('place_changed', () => {
-            if (document.getElementById('job_end_lat')){
-                let place = autocompleteEnd.getPlace();
-                document.getElementById('job_end_lat').value = place.geometry.location.lat();
-                document.getElementById('job_end_long').value = place.geometry.location.lng();
-            }
-        });
-        if (document.querySelector('#submit-button-wrapper')){
-            overrideFormSubmit();
-        }
-    })
-}
-
-function overrideFormSubmit(){
+function overrideFormSubmit() {
     document.querySelector('form').addEventListener('submit', e => {
         e.preventDefault();
-        let query = (queryParams, queryParamsTwo) => {
-            return new Promise((resolve, reject) => {
-                service.findPlaceFromQuery(queryParams, (results, status) => {
-                    service.findPlaceFromQuery(queryParamsTwo, (resultsTwo, statusTwo) => {
-                        if (status === google.maps.places.PlacesServiceStatus.OK && statusTwo === google.maps.places.PlacesServiceStatus.OK) {
-                            resolve([results, resultsTwo]);
-                        } else {
-                            reject([status, statusTwo]);
-                        }
-                    });
-                });
-            })
-        };
-        
-        query(newQueryParams(document.getElementById('job_start_location').value),
-            newQueryParams(document.getElementById('job_end_location').value))
-        .then(results => {
-            console.log(results)
+        let promise = createLocationPromise(document.getElementById('job_start_location').value, document.getElementById('job_end_location').value);
+        promise.then(results => {
             document.getElementById('job_start_lat').value = results[0][0].geometry.location.lat();
             document.getElementById('job_start_long').value = results[0][0].geometry.location.lng();
             document.getElementById('job_end_lat').value = results[1][0].geometry.location.lat();
@@ -82,7 +28,7 @@ function overrideFormSubmit(){
             div.id = 'location-error'
             div.style.color = 'red';
             div.textContent = "Error with your location provided!"
-            if (!document.getElementById('location-error')){
+            if (!document.getElementById('location-error')) {
                 document.querySelector('form').prepend(div)
             }
             setTimeout(() => {
@@ -92,83 +38,142 @@ function overrideFormSubmit(){
     });
 }
 
+function initJobForm(){
+    document.addEventListener('DOMContentLoaded', () => {
+        map = new google.maps.Map(document.createElement('div'), SINGAPORE_LOCATION_OBJECT);
+        initMapServices(map);
+        initAutocomplete();
+        overrideFormSubmit();
+    })
+}
+
 function initMap() {
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
-        service = new google.maps.places.PlacesService(map);
-        directionsService = new google.maps.DirectionsService;
-        directionsRenderer = new google.maps.DirectionsRenderer;
-        directionsRenderer.setMap(map);
+        initMapServices(map);
         initJobCards();
+        initAutocomplete();
+        $(maptrigger).on('click', addSlide);
+        $(maptrigger).on('click', initMarkersAndRoute);
     })
 }
 
-function initMarkersAndRoute(){
+function initMapServices(map){
+    service = new google.maps.places.PlacesService(map);
+    directionsService = new google.maps.DirectionsService;
+    directionsRenderer = new google.maps.DirectionsRenderer;
+    directionsRenderer.setMap(map);
+}
+
+function initAutocomplete() {
+    document.querySelectorAll('.autocomplete').forEach(form => {
+        form.addEventListener('keydown', e => {
+            e.keyCode === 13 ? e.preventDefault() : null;
+        })
+        let autocomplete = new google.maps.places.Autocomplete(form, AUTOCOMPLETE_OPTIONS);
+        autocomplete.addListener('place_changed', () => {
+            let place = autocomplete.getPlace();
+        });
+    })
+}
+
+function initMarkersAndRoute() {
     clearMarkers();
+    startLatLong = [];
+    endLatLong = [];
     markers = [];
-    latLongArray = [];
-    let startLocationQueryParams = newQueryParams(document.getElementById('job_start_location').value);
-    let endLocationQueryParams = newQueryParams(document.getElementById('job_end_location').value)
-    pushMarker(startLocationQueryParams, 'Start');
-    pushMarker(endLocationQueryParams, 'End');
-}
+    let promise = createLocationPromise(document.getElementById('job_start_location').value, document.getElementById('job_end_location').value);
+    promise.then(results => {
+        startLatLong.push(results[0][0].geometry.location.lat());
+        startLatLong.push(results[0][0].geometry.location.lng());
+        endLatLong.push(results[1][0].geometry.location.lat());
+        endLatLong.push(results[1][0].geometry.location.lng());
 
-function pushMarker(queryParams, markerLabel){
-    service.findPlaceFromQuery(queryParams, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            let infoWindow = newInfoWindow(results[0], results[0].name);
-            let marker = newMarker(results[0], markerLabel);
-            marker.addListener('click', () => {
-                infoWindow.open(map, marker);
-            })
-            latLongArray.push([results[0].geometry.location.lat(), results[0].geometry.location.lng()])
-            markers.push(marker)
-        }
-    });
-}
+        createMarker(results[0][0], 'Start');
+        createMarker(results[1][0], 'End');
 
-function clearMarkers(){
-    markers.forEach(marker =>{
-        marker.setMap(null);
-    })
-}
-
-function initJobCards(){
-    document.querySelectorAll('.job-card').forEach(card => {
-        card.addEventListener('click', () => {
-            document.querySelectorAll('.job-card').forEach(otherCard => {
-                otherCard.style.backgroundColor = "white";
-            })
-            card.style.backgroundColor = "#fffff0";
-            let startLocationQueryParams = newQueryParams(card.getAttribute('startloc'));
-            let endLocationQueryParams = newQueryParams(card.getAttribute('endloc'));
-            service.findPlaceFromQuery(startLocationQueryParams, (sResults, sStatus) => {
-                service.findPlaceFromQuery(endLocationQueryParams, (eResults, eStatus) => {
-                    if (sStatus === google.maps.places.PlacesServiceStatus.OK &&
-                        eStatus === google.maps.places.PlacesServiceStatus.OK) {
-                            showRoute(directionsRenderer, directionsService, sResults[0], eResults[0]);
-                    }
-                })
-            });
+        return [startLatLong, endLatLong];
+    }, errors => {
+        errors.forEach(error => {
+            console.log(error);
+        })
+    }).then(array => {
+        document.querySelectorAll('.job-card').forEach(card => {
+            let distance = getDistance(array[0][0], array[0][1], card.getAttribute('startlat'), card.getAttribute('startlong'))
+            distance < 2.0 ? card.hidden = false : card.hidden = true;
         })
     })
 }
 
-function newQueryParams(locationString) {
-    return {
-        query: locationString,
-        fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
+function createMarker(place, label){
+    let marker = newMarker(place, label);
+    let infoWindow = newInfoWindow(place, place.name);
+    marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+    })
+    markers.push(marker);
+}
+
+function getDistance(lat1, long1, lat2, long2) {
+    function deg2rad(deg) {
+        return deg * (Math.PI / 180)
     }
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(long2 - long1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+}
+
+function initJobCards() {
+    document.querySelectorAll('.job-card').forEach(card => {
+        card.addEventListener('click', () => {
+            clearCardColors();
+            card.style.backgroundColor = "#fffff0";
+            placeQueries(card.getAttribute('startloc'), card.getAttribute('endloc'), showRoute);
+        })
+    })
+}
+
+function clearCardColors(){
+    document.querySelectorAll('.job-card').forEach(card => {
+        card.style.backgroundColor = "white";
+    })
+}
+
+function clearMarkers() {
+    markers.forEach(marker => {
+        marker.setMap(null);
+    })
+}
+
+function createLocationPromise(firstPlace, secondPlace) {
+    return new Promise((resolve, reject) => {
+        service.findPlaceFromQuery(newQueryParams(firstPlace), (results, status) => {
+            service.findPlaceFromQuery(newQueryParams(secondPlace), (resultsTwo, statusTwo) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK && statusTwo === google.maps.places.PlacesServiceStatus.OK) {
+                    resolve([results, resultsTwo]);
+                } else {
+                    reject([status, statusTwo]);
+                }
+            });
+        });
+    })
 }
 
 function newInfoWindow(result, endLocationString) {
-    let imgSrc = 'NA'
-    if (result.photos){
+    let imgSrc = '#'
+    if (result.photos) {
         imgSrc = result.photos[0].getUrl();
     }
     return new google.maps.InfoWindow({
         content: `
-            <div class='info-window' end-location='${endLocationString}'>place.geometry.location.lat() + ", " + place.geometry.location.lng()
+            <div class='info-window' end-location='${endLocationString}'>
                 <img src=${imgSrc} style="width:200px; display:block" alt="No image found"/>
                 <p>Name: ${result.name}</p>
                 <p>Start address: ${result.formatted_address}</p>
@@ -187,14 +192,39 @@ function newMarker(result, markerLabel) {
     });
 }
 
-function showRoute(directionsRenderer, directionsService, startPlace, endPlace) {
+function newQueryParams(locationString) {
+    return {
+        query: locationString,
+        fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
+    }
+}
+
+function placeQuery(place, callback){
+    service.findPlaceFromQuery(newQueryParams(place), (result, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK){
+            callback(result);
+        }
+    });
+}
+
+function placeQueries(firstPlace, secondPlace, callback){
+    service.findPlaceFromQuery(newQueryParams(firstPlace), (result, status) => {
+        service.findPlaceFromQuery(newQueryParams(secondPlace), (resultTwo, statusTwo) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && statusTwo === google.maps.places.PlacesServiceStatus.OK){
+                callback(result, resultTwo);
+            }
+        })
+    });
+}
+
+function showRoute(startPlace, endPlace) {
     let travelMode = 'DRIVING' //WALKING, BICYCLING, TRANSIT
     let options = {
         origin: {
-            placeId: startPlace.place_id
+            placeId: startPlace[0].place_id
         },
         destination: {
-            placeId: endPlace.place_id
+            placeId: endPlace[0].place_id
         },
         travelMode: travelMode
     }
