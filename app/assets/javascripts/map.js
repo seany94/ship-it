@@ -98,9 +98,15 @@ function initMarkersAndRoute() {
             console.log(error);
         })
     }).then(array => {
+        document.querySelectorAll('#distance').forEach(div => {
+            div.remove();
+        })
         document.querySelectorAll('.job-card').forEach(card => {
             let distance = getDistance(array[0][0], array[0][1], card.getAttribute('startlat'), card.getAttribute('startlong'))
             distance < 2.0 ? card.hidden = false : card.hidden = true;
+            let div = document.createElement('div')
+            div.id = "distance"
+            div.innerText = "This place is " + distance.toFixed(2) + " km away from you."
         })
     })
 }
