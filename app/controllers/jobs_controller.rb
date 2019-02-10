@@ -79,7 +79,7 @@ class JobsController < ApplicationController
 
   def map
     gon.jobs = Job.all
-    @jobs = Job.all
+    @jobs = Job.where.not(:user_id => current_user.id).where(:accepted => false)
   end
 
   private
