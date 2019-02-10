@@ -1,14 +1,13 @@
 <% provide :head_tags do %>
-<%# Gon gem transfers rails hash data to JS %>
-<script>initAutocomplete()</script>
-<%= include_gon %>
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
+    <%# Gon gem transfers rails hash data to JS %>
+    <%= include_gon %>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
-<input type="text" class="form-control w-50" placeholder="Start Address" id="job_start_location">
-<input type="text" class="form-control w-50" placeholder="End Address" id="job_end_location">
-<div class="h-20 text-center" >
-	<button class="btn btn-outline-primary align-self-center m-auto" id="maptrigger">Show Map</button>
-</div>
+  <div class="container">
+    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
+    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="End Address" id="job_end_location">
+    <button class="btn btn-outline-primary " id="maptrigger">Show Map</button>
+  </div>
 <div class="wrapper">
 	<div class="job-list" id='job-list'>
 		<% @jobs.each do |job| %>
