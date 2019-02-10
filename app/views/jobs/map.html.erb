@@ -13,7 +13,14 @@
   <div class="job-list" id='job-list'>
     <% @jobs.each do |job| %>
       <% p job %>
-      <%= content_tag :div, class: "card text-left job-card", startloc: job.start_location, endloc: job.end_location do -%>
+      <%= content_tag :div, 
+        class: "card text-left job-card", 
+        startloc: job.start_location, 
+        endloc: job.end_location, 
+        startlat: job.start_lat, 
+        startlong: job.start_long, 
+        endlat: job.end_lat, 
+        endlong: job.end_long do -%>
         <div class="card-body d-flex">
           <div>
             <% if job.package_picture == nil %>
