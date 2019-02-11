@@ -108,6 +108,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def update_captcha
     unless verify_recaptcha
+      flash[:alert] = "reCAPTCHA verification failed, please try again."
       redirect_to edit_user_registration_url
     end
   end
