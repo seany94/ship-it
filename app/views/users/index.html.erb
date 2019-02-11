@@ -51,7 +51,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by </strong><%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by </strong><%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
@@ -81,7 +81,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
@@ -111,7 +111,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
