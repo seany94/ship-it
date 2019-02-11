@@ -63,10 +63,10 @@ function initMap() {
         });
         $(maptrigger).on('click', addSlide);
         $(maptrigger).on('click', () => {
-            if (placeArray.length === 0){
-                initMarkersAndRoute();
-            } else {
+            if (placeArray[0] && placeArray[1]){
                 initMarkersAndRouteWithPlace();
+            } else {
+                initMarkersAndRoute();
             }
         });
     })
@@ -99,13 +99,13 @@ function initMarkersAndRouteWithPlace(){
     createMarker(placeArray[0], 'Start');
     createMarker(placeArray[1], 'End');
     showJobDistances([placeArray[0].geometry.location.lat(), placeArray[0].geometry.location.lng()])
+    placeArray=[];
 }
 
 function initMarkersAndRoute() {
     clearMarkers();
     startLatLong = [];
     endLatLong = [];
-    markers = [];
     let promise = createLocationPromise(document.getElementById('job_start_location').value, document.getElementById('job_end_location').value);
     promise.then(results => {
         startLatLong.push(results[0][0].geometry.location.lat());
@@ -118,9 +118,7 @@ function initMarkersAndRoute() {
 
         return startLatLong;
     }, errors => {
-        errors.forEach(error => {
-            console.log(error);
-        })
+        console.log(errors);
     }).then(startLatLong => {
         showJobDistances(startLatLong);
     })
@@ -137,7 +135,6 @@ function showJobDistances(startLatLongArray){
         div.id = "distance"
         div.innerText = "This place is " + distance.toFixed(2) + " km away from you."
         card.childNodes[1].childNodes[3].childNodes[3].appendChild(div)
-        placeArray = [];
     })
 }
 
@@ -184,9 +181,10 @@ function clearCardColors(){
 }
 
 function clearMarkers() {
-    markers.forEach(marker => {
-        marker.setMap(null);
-    })
+    for (let i = markers.length-1; i >= 0; i--){
+        markers[i].setMap(null);
+        markers.splice(i,1);
+    }
 }
 
 function createLocationPromise(firstPlace, secondPlace) {
@@ -233,7 +231,14 @@ function newMarker(result, markerLabel) {
 function newQueryParams(locationString) {
     return {
         query: locationString,
-        fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types']
+        fields: ['formatted_address', 'geometry', 'id', 'name', 'photos', 'place_id', 'plus_code', 'types'],
+        locationBias: new google.maps.Circle({
+            center: {
+                lat: 1.355,
+                lng: 103.838959
+            },
+            radius: 26000
+        })
     }
 }
 
