@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-    
+
     def create
         resource = User.find_for_database_authentication(email: params[:user][:email])
         return invalid_login_attempt unless resource
@@ -11,13 +11,7 @@ class SessionsController < Devise::SessionsController
         invalid_login_attempt
     end
 
-    def destroy
-        signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-        yield if block_given?
-        respond_to_on_destroy
-    end
-
-    protected 
+    protected
     def invalid_login_attempt
         render :json => {"error" => "Invalid username or password"}, status: 401
     end
