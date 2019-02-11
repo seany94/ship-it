@@ -30,12 +30,20 @@ window.onload = function () {
     var navbarCollapse = function () {
         console.log('navbarCollapse is activated')
         console.log($('#mainNav').offset())
-        if ($('#mainNav').offset().top > 100) {
+        if (Cookies.get('nav') !== undefined) {
+            $('.navbar-brand').removeClass('tranzz');
+            $('#mainNav').removeClass('transs');
             $('#mainNav').addClass('navbar-shrink');
+            $('#mainNav').addClass('noblocking');
         } else {
-            $('#mainNav').removeClass('navbar-shrink');
+            if ($('#mainNav').offset().top > 100) {
+                $('#mainNav').addClass('navbar-shrink');
+            } else {
+                $('#mainNav').removeClass('navbar-shrink');
+            }
         }
     };
+
     // Collapse now if page is not at top
     navbarCollapse();
     // Collapse the navbar when page is scrolled

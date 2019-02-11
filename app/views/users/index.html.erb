@@ -1,3 +1,6 @@
+
+
+
 <% if user_signed_in? %>
 <div class="container m-0" style="max-width: 100%;">
 	<div class="row text-center">
@@ -130,7 +133,18 @@
 		</div>
 	</div>
 </div>
+<script>     
+if (Cookies.get('nav') == undefined) {
+    $('#mainNav').addClass('transs');
+} else {
+    $('.navbar-brand').removeClass('tranzz');
+    $('#mainNav').removeClass('transs');
+    $('#mainNav').addClass('navbar-shrink');
+    $('#mainNav').addClass('noblocking');
 
+}</script>
+
+<%# <script type="text/javascript" src="/loggedinnav.js"></script> %>
 <% else %>
 
       <%= render partial: 'layouts/publicindex' %>

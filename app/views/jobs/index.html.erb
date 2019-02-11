@@ -40,3 +40,15 @@
 
 <%= link_to 'New Job', new_job_path %>
 <%= link_to 'Home', root_path %>
+
+    <script>     
+if (Cookies.get('nav') == undefined) {
+    $('#mainNav').addClass('transs');
+} else {
+    $('.navbar-brand').removeClass('tranzz');
+    $('#mainNav').removeClass('transs');
+    $('#mainNav').addClass('navbar-shrink');
+    $('#mainNav').addClass('noblocking');
+
+}
+</script>
