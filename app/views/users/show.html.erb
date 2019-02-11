@@ -30,7 +30,7 @@
 						</li>
 					</ul>
 					<div class="collapse" id="tab1" data-parent="#accordionExample">
-						<% @jobs.where(:user_id => @users).where(:completed => false).order('accepted = true').each do |job| %>
+						<% @jobs.where(:user_id => @users).where(:completed => false).order('accepted = true').order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
@@ -60,7 +60,7 @@
 						<% end %>
 					</div>
 					<div class="collapse" id="tab2" data-parent="#accordionExample">
-						<% @jobs.where(:acceptor_id => @users).where.not(:completed => true).each do |job| %>
+						<% @jobs.where(:acceptor_id => @users).where.not(:completed => true).order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
@@ -90,7 +90,7 @@
 						<% end %>
 					</div>
 					<div class="collapse" id="tab3" data-parent="#accordionExample">
-						<% @jobs.where(:user_id => @users).or(Job.where(:acceptor_id => @users)).where(:completed => true).each do |job| %>
+						<% @jobs.where(:user_id => @users).or(Job.where(:acceptor_id => @users)).where(:completed => true).order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
