@@ -1,20 +1,21 @@
 class RegistrationsController < Devise::RegistrationsController
 
   prepend_before_action :check_captcha, only: [:create]
+  prepend_before_action :update_captcha, only: [:update]
 
   def create
     @user = User.new(sign_up_params)
 
-      if @user.profile_picture == nil
-        p 'profile pic is nil'
-        @user.profile_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
-      else
-        p 'profile pic is not nil'
-    uploaded_file = params[:user][:profile_picture].path
-    cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
+    if @user.profile_picture == nil
+      p 'profile pic is nil'
+      @user.profile_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
+    else
+      p 'profile pic is not nil'
+      uploaded_file = params[:user][:profile_picture].path
+      cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
 
-    @user.profile_picture = cloudnary_file['secure_url']
-      end
+      @user.profile_picture = cloudnary_file['secure_url']
+    end
     @user.save
     yield @user if block_given?
     if @user.persisted?
@@ -38,26 +39,25 @@ class RegistrationsController < Devise::RegistrationsController
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-      if resource.profile_picture == nil
-        p 'profile pic is nil'
-        byebug
-        resource.profile_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
-      else
-        p 'profile pic is not nil'
-        byebug
-    uploaded_file = params[:user][:profile_picture].path
-    cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
+    if resource.profile_picture == nil
+      p 'profile pic is nil'
+      resource.profile_picture = 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
+    else
+      p 'profile pic is not nil'
+      if resource.profile_picture != 'https://s3-eu-west-2.amazonaws.com/mlwpobjects/wordpress/wp-content/uploads/2018/05/25131249/No-Profile-Picture.jpg'
 
-    test = account_update_params
-    test[:profile_picture] = cloudnary_file['secure_url']
-      end
+      uploaded_file = params[:user][:profile_picture].path
+      cloudnary_file = Cloudinary::Uploader.upload(uploaded_file)
 
-    resource_updated = update_resource(resource, test)
-    byebug
+      test = account_update_params
+      test[:profile_picture] = cloudnary_file['secure_url']
+      resource_updated = update_resource(resource, test)
+    end
+    end
+      resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
     if resource_updated
       set_flash_message_for_update(resource, prev_unconfirmed_email)
-      byebug
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
       respond_with resource, location: after_update_path_for(resource)
@@ -81,12 +81,12 @@ class RegistrationsController < Devise::RegistrationsController
     return unless is_flashing_format?
 
     flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
-                  :update_needs_confirmation
-                elsif sign_in_after_change_password?
-                  :updated
-                else
-                  :updated_but_not_signed_in
-                end
+      :update_needs_confirmation
+    elsif sign_in_after_change_password?
+      :updated
+    else
+      :updated_but_not_signed_in
+    end
     set_flash_message :notice, flash_key
   end
 
@@ -98,18 +98,24 @@ class RegistrationsController < Devise::RegistrationsController
 
   def check_captcha
     unless verify_recaptcha
-    self.resource = resource_class.new sign_up_params
-    resource.validate # Look for any other validation errors besides Recaptcha
-    set_minimum_password_length
-    respond_with resource
+      self.resource = resource_class.new sign_up_params
+      resource.validate # Look for any other validation errors besides Recaptcha
+      set_minimum_password_length
+      redirect_to user_signup
     end
   end
 
-  def sign_up_params
-    params.require(:user).permit(:username, :profile_picture, :email, :password, :password_confirmation)
+  def update_captcha
+    unless verify_recaptcha
+      redirect_to edit_user_registration_url
+    end
   end
 
-  def account_update_params
-    params.require(:user).permit(:username, :profile_picture, :email, :password, :password_confirmation, :current_password)
-  end
+def sign_up_params
+  params.require(:user).permit(:username, :profile_picture, :email, :password, :password_confirmation)
+end
+
+def account_update_params
+  params.require(:user).permit(:username, :profile_picture, :email, :password, :password_confirmation, :current_password)
+end
 end
