@@ -1,18 +1,18 @@
 <% provide :head_tags do %>
-    <%# Gon gem transfers rails hash data to JS %>
-    <%= include_gon %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
+<%# Gon gem transfers rails hash data to JS %>
+<%= include_gon %>
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
-  <div class="container shadow p-3 mb-5 bg-white rounded border border-info">
+<div class="container shadow p-3 mb-5 bg-white rounded border border-info">
 	<div>
-    	<input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
+		<input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
 	</div>
-    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="End Address" id="job_end_location">
-    <button class="btn btn-outline-primary " id="maptrigger">Show Map</button>
-  </div>
+	<input type="text" class="form-control w-25 d-inline autocomplete" placeholder="End Address" id="job_end_location">
+	<button class="btn btn-outline-primary " id="maptrigger">Show Map</button>
+</div>
 <div class="wrapper shadow mb-5 ml-3 mr-3 bg-white rounded border border-info w-90">
 	<div class="job-list" id='job-list'>
-		<% @jobs.each do |job| %>
+		<% @jobs.order('date_delivery asc').each do |job| %>
 		<% p job %>
 		<%= content_tag :div,
 		class: "card text-left job-card",
@@ -35,13 +35,9 @@
 						<%= job.title.capitalize %>
 					</h5>
 					<p>
-						<strong>Pickup: </strong><%= job.start_location %> 
+						<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 						<br>
-						<!--<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> 
-						<br>-->
-						<strong>Destination: </strong><%= job.end_location %>
-						<br>
-						<strong>By: </strong><%= job.date_delivery.to_formatted_s(:long_ordinal) %>
+						<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by </strong><%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 					</p>
 					<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 					<%= link_to 'Accept Job', job_path(job.id), method: :put, class:"btn btn-primary"%>
