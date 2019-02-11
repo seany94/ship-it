@@ -1,12 +1,8 @@
-<h1>New Job</h1>
 <% provide :head_tags do %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initJobForm', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
 <%= render 'form', job: @job %>
-<p id="start-lat-long">Something</p>
-<%= link_to 'Back', root_path %>
-    <%# <script type="text/javascript" src="/loggedinnav.js"></script> %>
     <script>     
 if (Cookies.get('nav') == undefined) {
     $('#mainNav').addClass('transs');

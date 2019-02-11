@@ -133,7 +133,7 @@ function showJobDistances(startLatLongArray){
         distance < 2.0 ? card.hidden = false : card.hidden = true;
         let div = document.createElement('div')
         div.id = "distance"
-        div.innerText = "This place is " + distance.toFixed(2) + " km away from you."
+        div.innerHTML = "<strong>Job pickup is " + distance.toFixed(2) + " km away from you.</strong>"
         card.childNodes[1].childNodes[3].childNodes[3].appendChild(div)
     })
 }
@@ -219,12 +219,20 @@ function newInfoWindow(result, endLocationString) {
 }
 
 function newMarker(result, markerLabel) {
-    console.log(result)
     return new google.maps.Marker({
         map: map,
         title: result.name,
         label: markerLabel,
-        position: result.geometry.location
+        position: result.geometry.location,
+        icon: {
+            path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z',
+            fillColor: 'yellow',
+            fillOpacity: 1,
+            strokeColor: '#000',
+            strokeWeight: 1,
+            scale: 1,
+            labelOrigin: new google.maps.Point(0,-48)
+          }
     });
 }
 

@@ -1,19 +1,24 @@
 <% provide :head_tags do %>
+<<<<<<< HEAD
     <%# Gon gem transfers rails hash data to JS %>
     <%= include_gon %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
     <link href="/loggedin.css" rel="stylesheet" type="text/css">
+=======
+<%# Gon gem transfers rails hash data to JS %>
+<%= include_gon %>
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
+>>>>>>> cc62e49fc2a23decd996fbd39eb95526cbacd248
 <% end %>
-  <div class="container shadow p-3 mb-5 bg-white rounded border border-info">
-	<div>
-    	<input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
-	</div>
-    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="End Address" id="job_end_location">
-    <button class="btn btn-outline-primary " id="maptrigger">Show Map</button>
+  <div class="container shadow p-3 mb-5 bg-white rounded border border-info text-center">
+  	<h4 class="text-info">Find jobs within 2.0km of you</h4>
+    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="I'm currently at..." id="job_start_location">
+    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="I am going to..." id="job_end_location">
+    <button class="btn btn-primary " id="maptrigger">Show Jobs</button>
   </div>
 <div class="wrapper shadow mb-5 ml-3 mr-3 bg-white rounded border border-info w-90">
 	<div class="job-list" id='job-list'>
-		<% @jobs.each do |job| %>
+		<% @jobs.order('date_delivery asc').each do |job| %>
 		<% p job %>
 		<%= content_tag :div,
 		class: "card text-left job-card",
@@ -26,9 +31,9 @@
 			<div class="card-body d-flex">
 				<div>
 					<% if job.package_picture == nil %>
-					<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 50 %>
+					<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', height: 150, width: 150 %>
 					<% else %>
-					<%= image_tag job.package_picture, width: 50 %>
+					<%= image_tag job.package_picture, height: 150, width: 150 %>
 					<% end %>
 				</div>
 				<div class="m-2">
@@ -38,7 +43,7 @@
 					<p>
 						<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 						<br>
-						<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by </strong><%= job.date_delivery %>
+						<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by </strong><%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 					</p>
 					<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
 					<%= link_to 'Accept Job', job_path(job.id), method: :put, class:"btn btn-primary"%>

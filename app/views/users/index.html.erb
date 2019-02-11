@@ -17,6 +17,7 @@
 					<br>
 					<a href="/jobs/new" class="btn btn-lg btn-primary" tabindex="-1" role="button" aria-disabled="true">Create Job</a>
 					<a href="/map" class="btn btn-lg btn-primary" tabindex="-1" role="button">Jobs Listing</a>
+					<a href="/users/edit" class="btn btn-primary btn-lg btn-block mt-1" tabindex="-1" role="button">Edit Profile</a>
 				</div>
 			</div>
 		</div>
@@ -37,14 +38,14 @@
 						</li>
 					</ul>
 					<div class="collapse" id="tab1" data-parent="#accordionExample">
-						<% @jobs.where(:user_id => current_user.id).where(:completed => false).order('accepted = true').each do |job| %>
+						<% @jobs.where(:user_id => current_user.id).where(:completed => false).order('accepted = true').order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
 									<% if job.package_picture == nil %>
-									<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150, height: 150 %>
+									<%= image_tag 'http://catawbabrewing.com/wp-content/themes/catawba/images/placeholder.png', width: 150 %>
 									<% else %>
-									<%= image_tag job.package_picture, width: 150, height: 150 %>
+									<%= image_tag job.package_picture, width: 150 %>
 									<% end %>
 								</div>
 								<div class="m-2">
@@ -54,7 +55,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by </strong><%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by </strong><%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
@@ -67,7 +68,7 @@
 						<% end %>
 					</div>
 					<div class="collapse" id="tab2" data-parent="#accordionExample">
-						<% @jobs.where(:acceptor_id => current_user.id).where.not(:completed => true).each do |job| %>
+						<% @jobs.where(:acceptor_id => current_user.id).where.not(:completed => true).order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
@@ -84,7 +85,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
@@ -97,7 +98,7 @@
 						<% end %>
 					</div>
 					<div class="collapse" id="tab3" data-parent="#accordionExample">
-						<% @jobs.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true).each do |job| %>
+						<% @jobs.where(:user_id => current_user.id).or(Job.where(:acceptor_id => current_user.id)).where(:completed => true).order('date_delivery asc').each do |job| %>
 						<div class="card text-left">
 							<div class="card-body d-flex">
 								<div>
@@ -114,7 +115,7 @@
 									<p>
 										<strong>Deliver from</strong> <%= job.start_location %> <strong>to</strong> <%= job.end_location %>
 										<br>
-										<strong>Pickup by</strong> <%= job.date_pickup %> and <strong>deliver by</strong> <%= job.date_delivery %>
+										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
 									<div class="btn btn-primary">Pending Acceptance</div>
