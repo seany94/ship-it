@@ -53,6 +53,9 @@
         <% end %>
       </div>
     </nav>
+    <div class="mt-1">
+	    <%= render partial: "layouts/flash_messages", flash: flash %>
+	  </div>
     <% unless user_signed_in? %>
       <%= render partial: 'devise/registrations/new' %>
       <%= render partial: 'devise/sessions/new' %>
