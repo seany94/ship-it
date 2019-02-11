@@ -10,7 +10,7 @@
     <button class="btn btn-primary" style="color: black;" id="maptrigger">Show Jobs</button>
   </div>
 <div class="wrapper shadow mb-5 ml-3 mr-3 bg-white rounded border border-secondary w-90">
-	<div class="job-list" id='job-list' style="box-shadow: 3px 3px 10px grey;">
+	<div class="job-list" id='job-list' style="box-shadow: 3px 3px 10px grey; overflow: auto; ">
 		<% @jobs.order('date_delivery asc').each do |job| %>
 		<% p job %>
 		<%= content_tag :div,

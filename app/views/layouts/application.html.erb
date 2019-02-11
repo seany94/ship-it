@@ -55,7 +55,7 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"nav-link js-scroll-trigger h-100 my-auto align-middle" %>
+            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"nav-link js-scroll-trigger align-middle", style: 'margin-top: 7%;' %>
           </li>
         </ul>
             <% else %>
@@ -77,6 +77,27 @@
       <%= render partial: 'devise/sessions/new' %>
     <% end %>
     <%= yield %>
+        <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <span class="copyright">Copyright &copy; 2019</span>
+                </div>
+                <div class="col-md">
+                    <ul class="list-inline quicklinks">
+                        <li class="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
         <script type="text/javascript" src="/agency.js"></script>
   </body>
 </html>

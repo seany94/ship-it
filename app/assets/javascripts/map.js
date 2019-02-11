@@ -171,20 +171,6 @@ function initJobCards() {
         card.addEventListener('click', () => {
             clearCardColors();
             card.style.backgroundColor = "#fffff0";
-            let cardImages = document.querySelectorAll('.card-body > div > img');
-            let cardButtons = document.querySelectorAll('.card-body > div > .btn');
-            for (i = 0; i < cardImages.length; i++) {
-                cardImages[i].classList.add('imgtransit');
-                cardImages[i].style.height = '80px';
-                cardImages[i].style.width = '80px';
-
-            }
-            for (i = 0; i < cardButtons.length; i++) {
-                cardButtons[i].classList.add('imgtransit');
-                cardButtons[i].style.padding = '0.1rem 0.45rem';
-                cardButtons[i].style.fontSize = '0.8rem';
-            }
-
             placeQueries(card.getAttribute('startloc'), card.getAttribute('endloc'), showRoute);
             addSlide();
         })
