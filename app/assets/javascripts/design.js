@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function loginAjaxHandler(response){
-    $(login_new_user).prepend('<div class="alert alert-danger">' + response.detail[0].error + '</div>');
+    if (!document.querySelector('#login-error')){
+        $(login_new_user).prepend('<div class="alert alert-danger" id="login-error">' + response.detail[0].error + '</div>');
+    }
 }
 
 function getRouteString(windowInstance, urlString){
