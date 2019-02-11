@@ -1,59 +1,57 @@
 <div class="modal fade" id="signup-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title"><h1>Sign Up</h1></h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
+			<div class="modal-header">
+				<h5 class="modal-title"><h1>Sign Up</h1></h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
 
-            <div class="modal-body">
-                <%= form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true) do |f| %>
-                    <%= devise_error_messages! %>
+			<div class="modal-body">
+				<%= form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true) do |f| %>
+				<%= devise_error_messages! %>
+				<h3 class="text-center default-text py-3"><i class="fas fa-user-plus"></i> Sign Up:</h3>
+				<div>
+					<i class="fas fa-user"></i>
+					<%= f.text_field :username, autofocus: true, class:"form-control" %>
+					<label for="defaultForm-email">Your username</label>
+				</div>
+				<div>
+					<i class="fas fa-images"></i>
+					<%= f.file_field :profile_picture %>
+					<label for="defaultForm-email">Your profile image</label>
+				</div>
+				<div>
+					<i class="fa fa-envelope prefix grey-text"></i>
+					<%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+					<label for="defaultForm-email">Your email</label>
+				</div>
+				<div>
+					<% if @minimum_password_length %>
+					<em>(<%= @minimum_password_length %> characters minimum)</em>
+					<% end %>
+					<i class="fa fa-lock prefix grey-text"></i>
+					<%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+					<label for="defaultForm-pass">Your password</label>
+				</div>
+				<div>
+					<i class="fa fa-lock prefix grey-text"></i>
+					<%= f.password_field :password, autocomplete: "new-password", class:"form-control" %>
+					<label for="defaultForm-pass">Your password confirmation</label>
+				</div>
 
-                    <div class="field">
-                        <%= f.label :username %><br />
-                        <%= f.text_field :username, autofocus: true %>
-                    </div>
+				<br>
+				<%= flash[:recaptcha_error] %>
+				<%= recaptcha_tags %>
+				<br>
 
-                    <div class="field">
-                        <%= f.label :profile_picture %><br />
-                        <%= f.file_field :profile_picture %>
-                    </div>
-
-                    <div class="field">
-                        <%= f.label :email %><br />
-                        <%= f.email_field :email, autocomplete: "email" %>
-                    </div>
-
-                    <div class="field">
-                        <%= f.label :password %>
-
-                        <% if @minimum_password_length %>
-                            <em>(<%= @minimum_password_length %> characters minimum)</em>
-                        <% end %>
-
-                        <br/>
-                        <%= f.password_field :password, autocomplete: "new-password" %>
-                    </div>
-
-                    <div class="field">
-                        <%= f.label :password_confirmation %><br />
-                        <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-                    </div>
-
-                    <br>
-                        <%= flash[:recaptcha_error] %>
-                        <%= recaptcha_tags %>
-                    <br>
-
-                    <div class="actions">
-                        <%= f.submit "Sign up" %>
-                    </div>
-                <% end %>
-            </div>
-        </div>
-    </div>
+				<div class="text-center">
+						<%= f.submit "Sign up", class:"btn btn-default waves-effect waves-light" %>
+					</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,47 +1,48 @@
-<div class="modal fade" id="login-modal">   
-    <div class="modal-dialog">
-        <div class="modal-content"> 
+<div class="modal fade" id="login-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Log In</h5>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
+			<div class="modal-header">
+				<h5 class="modal-title">Log In</h5>
+				<button type="button" class="close" data-dismiss="modal">
+					<span>&times;</span>
+				</button>
+			</div>
 
-            <div class="modal-body">
-                <div>
-                    <%= form_for(resource, as: resource_name, url: session_path(resource_name), remote: true, namespace: 'login') do |f| %>
-                        <div class="wrap">
-                            <div class="field">
-                                <%= f.label :email %><br />
-                                <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-                            </div>
+			<div class="modal-body">
+				<div>
+					<%= form_for(resource, as: resource_name, url: session_path(resource_name), remote: true, namespace: 'login') do |f| %>
+					<h3 class="text-center default-text py-3"><i class="fa fa-lock"></i> Login:</h3>
+					<div>
+						<i class="fa fa-envelope prefix grey-text"></i>
+						<%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control" %>
+						<label for="defaultForm-email">Your email</label>
+					</div>
+					<div>
+						<i class="fa fa-lock prefix grey-text"></i>
+						<%= f.password_field :password, autocomplete: "current-password", class:"form-control" %>
+						<label for="defaultForm-pass">Your password</label>
+					</div>
 
-                            <div class="field">
-                                <%= f.label :password %><br />
-                                <%= f.password_field :password, autocomplete: "current-password" %>
-                            </div>
+					<% if devise_mapping.rememberable? -%>
+					<div class="field">
+						<%= f.check_box :remember_me %>
+						<%= f.label :remember_me %>
+					</div>
+					<% end -%>
 
-                            <% if devise_mapping.rememberable? -%>
-                                <div class="field">
-                                <%= f.check_box :remember_me %>
-                                <%= f.label :remember_me %>
-                                </div>
-                            <% end -%>
+					<div class="text-center">
+						<%= f.submit "Log in", class:"btn btn-default waves-effect waves-light" %>
+					</div>
 
-                            <div class="actions">
-                                <%= f.submit "Log in" %>
-                            </div>
+					<div>
+						<%= render "devise/shared/links" %>
+					</div>
+				</div>
+				<% end %>
+			</div>
+		</div>
 
-                            <div>
-                                <%= render "devise/shared/links" %>
-                            </div>
-                        </div>
-                    <% end %>
-                </div>
-            </div>
-
-        </div>
-    </div>
+	</div>
+</div>
 </div>

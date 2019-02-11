@@ -1,77 +1,80 @@
-<%#<%= form_with(model: job, local: true) do |form| %>
 <%= form_with scope: :job, url: jobs_path, local: true do |form| %>
 
-  <% if job.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
+<% if job.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
 
-      <ul>
-      <% job.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<ul>
+		<% job.errors.full_messages.each do |message| %>
+		<li><%= message %></li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+<div class="text-center">
+	<h3 class="default-text py-3"><i class="fas fa-shuttle-van"></i> New Job Posting</h3>
+	<div>
+		<i class="fas fa-file-alt"></i>
+		<label for="defaultForm-email">Job Title</label>
+		<%= form.text_field :title %>
+	</div>
+	<div>
+		<i class="fas fa-box"></i>
+		<label for="defaultForm-email">Package Image</label>
+		<%= form.file_field :package_picture %>
+	</div>
+	<div>
+		<i class="fas fa-map-marker-alt"></i>
+		<label for="defaultForm-email">Start Location</label>
+		<%= form.text_field :start_location, :class => 'autocomplete' %>
+	</div>
+	<div>
+		<i class="fas fa-map-marker-alt"></i>
+		<label for="defaultForm-email">End Location</label>
+		<%= form.text_field :end_location, :class => 'autocomplete' %>
+	</div>
+	<div>
+		<i class="fas fa-calendar-alt"></i>
+		<label for="defaultForm-email">Pickup Date</label>
+		<%= form.datetime_select :date_pickup %>
+	</div>
+	<div>
+		<i class="fas fa-calendar-alt"></i>
+		<label for="defaultForm-email">Delivery Date</label>
+		<%= form.datetime_select :date_delivery %>
+	</div>
+</div>
 
-  <div class="field">
-    <%= form.label :package_picture %>
-    <%= form.file_field :package_picture %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :start_lat, :value => nil %>
+</div>
 
-  <div class="field">
-    <%= form.label :start_location %>
-    <%= form.text_field :start_location, :class => 'autocomplete' %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :start_long, :value => nil %>
+</div>
 
-  <div class="field">
-    <%= form.label :end_location %>
-    <%= form.text_field :end_location, :class => 'autocomplete' %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :end_lat, :value => nil %>
+</div>
 
-  <div class="field">
-    <%= form.label :date_pickup %>
-    <%= form.datetime_select :date_pickup %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :end_long, :value => nil %>
+</div>
 
-  <div class="field">
-    <%= form.label :date_delivery %>
-    <%= form.datetime_select :date_delivery %>
-  </div>
- 
-  <div class="field">
-    <%= form.hidden_field :start_lat, :value => nil %>
-  </div>  
-  
-  <div class="field">
-    <%= form.hidden_field :start_long, :value => nil %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :acceptor_id, :value => nil %>
+</div>
 
-  <div class="field">
-    <%= form.hidden_field :end_lat, :value => nil %>
-  </div>  
-  
-  <div class="field">
-    <%= form.hidden_field :end_long, :value => nil %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :accepted, :value => false %>
+</div>
 
-  <div class="field">
-    <%= form.hidden_field :acceptor_id, :value => nil %>
-  </div>
+<div class="field">
+	<%= form.hidden_field :completed, :value => false %>
+</div>
 
-  <div class="field">
-    <%= form.hidden_field :accepted, :value => false %>
-  </div>
-
-  <div class="field">
-    <%= form.hidden_field :completed, :value => false %>
-  </div>
-
-  <div class="actions" id="submit-button-wrapper">
-    <%= form.submit %>
-  </div>
+<div class="actions" id="submit-button-wrapper">
+	<%= form.submit %>
+</div>
 <% end %>
