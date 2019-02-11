@@ -16,5 +16,8 @@
 //= require rails-ujs
 //= require activestorage
 //= require cloudinary
+<<<<<<< HEAD
 //= require turbolinks
+=======
+>>>>>>> fc32ac6d6981cdf370e65760b1d3df820f3590bf
 //= require_tree .

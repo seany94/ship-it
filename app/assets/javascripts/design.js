@@ -3,14 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.querySelector('#login_new_user')){
         $(login_new_user).on('ajax:error', loginAjaxHandler)
     }
-    if(document.querySelector('#maptrigger')){
-        $(maptrigger).on('click', addSlide);
-        $(maptrigger).on('click', initMarkersAndRoute);
-    }
+
 });
 
 function loginAjaxHandler(response){
-    $(login_new_user).prepend('<div class="alert alert-danger">' + response.detail[0].error + '</div>');
+    if (!document.querySelector('#login-error')){
+        $(login_new_user).prepend('<div class="alert alert-danger" id="login-error">' + response.detail[0].error + '</div>');
+    }
 }
 
 function getRouteString(windowInstance, urlString){
@@ -29,5 +28,5 @@ function setActiveNavItem(){
 }
 function addSlide(){
     document.querySelector('#job-list').classList = 'job-list-transition';
-    document.querySelector('#map-wrapper').classList = 'map-wrapper-transition'
+    document.querySelector('#map-wrapper').classList = 'map-wrapper-transition';
 }

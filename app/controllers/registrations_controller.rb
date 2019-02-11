@@ -51,8 +51,6 @@ class RegistrationsController < Devise::RegistrationsController
     test = account_update_params
     test[:profile_picture] = cloudnary_file['secure_url']
       end
-      
-byebug
 
     resource_updated = update_resource(resource, test)
     byebug

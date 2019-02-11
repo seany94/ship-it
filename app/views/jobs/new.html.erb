@@ -1,6 +1,6 @@
 <h1>New Job</h1>
 <% provide :head_tags do %>
-    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initAutocomplete', 'data-turbolinks-track': 'reload'%>
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initJobForm', 'data-turbolinks-track': 'reload'%>
 <% end %>
 
 <%= render 'form', job: @job %>
