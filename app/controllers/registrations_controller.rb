@@ -101,7 +101,8 @@ class RegistrationsController < Devise::RegistrationsController
       self.resource = resource_class.new sign_up_params
       resource.validate # Look for any other validation errors besides Recaptcha
       set_minimum_password_length
-      redirect_to user_signup
+      flash[:alert] = "reCAPTCHA verification failed, please try again."
+      redirect_to root_path
     end
   end
 
