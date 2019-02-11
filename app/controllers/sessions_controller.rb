@@ -5,7 +5,8 @@ class SessionsController < Devise::SessionsController
         return invalid_login_attempt unless resource
         if resource.valid_password?(params[:user][:password])
             sign_in :user, resource
-            redirect_to root_url and return
+            redirect_to root_url
+            return
         end
         invalid_login_attempt
     end
