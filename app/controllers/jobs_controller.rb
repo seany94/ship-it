@@ -40,16 +40,19 @@ class JobsController < ApplicationController
           #cloudnary_file['public_id']
           @job.package_picture = cloudnary_file['secure_url']
         end
+    flash[:alert] = "Congratulation job #{@job.title} has been successfully created and added to your profile"
+    @job.save
+    redirect_to root_path
 
-    respond_to do |format|
-      if @job.save
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
-        format.json { render :show, status: :created, location: @job }
-      else
-        format.html { render :new }
-        format.json { render json: @job.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @job.save
+    #     format.html { redirect_to @job, notice: 'Job was successfully created.' }
+    #     format.json { render :show, status: :created, location: @job }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @job.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /jobs/1
@@ -58,6 +61,7 @@ class JobsController < ApplicationController
     @job = Job.find(params[:id])
     Job.where(:id => @job).update_all(:acceptor_id => current_user.id)
     Job.where(:id => @job).update_all(:accepted => true)
+    flash[:alert] = "Congratulation job #{@job.title} has been successfully accepted and added to your profile"
     redirect_to root_path
     # respond_to do |format|
     #   if @job.update(job_params)
