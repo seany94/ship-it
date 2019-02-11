@@ -10,54 +10,71 @@
     <%= favicon_link_tag asset_path('shipit.png') %>
     <%= yield(:head_tags) %>
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
   </head>
 
-  <body>
-    <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-      <a class="navbar-brand" href="/">
-        <h3 style="font-family: 'ZCOOL QingKe HuangYou', cursive; color: #020070">Ship It</h3>
-      </a>
-      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="navbar-collapse collapse" id="navbarCollapse" style="">
-        <ul class="navbar-nav mr-auto">
+  <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Ship It</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+
+
+                  <ul class="navbar-nav mr-auto">
           <% if user_signed_in? %>
           <li class="nav-item">
-            <a class="nav-link" href="/jobs">Jobs</a>
+            <a class="nav-link js-scroll-trigger" href="/jobs">Jobs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/map">Map</a>
+            <a class="nav-link js-scroll-trigger" href="/map">Map</a>
           </li>
           <li class="nav-item">
-            <%= link_to 'New Job', new_job_path, class:"nav-link" %>
+            <%= link_to 'New Job', new_job_path, class:"nav-link js-scroll-trigger" %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Users', users_path, class:"nav-link" %>
+            <%= link_to 'Users', users_path, class:"nav-link js-scroll-trigger" %>
           </li>
-          <% end %>
         </ul>
-        <% if user_signed_in? %>
-          <%= link_to root_path, id: "test" do %>
-            <div class="flex-container mr-4">
-              <%= image_tag current_user.profile_picture, class: "profile-pic-thumbnail rounded-circle" %>
-              <%= link_to edit_user_registration_path do %>
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <%= link_to root_path, class:"nav-link js-scroll-trigger", id: "test" do %>
+              <div class="flex-container mr-4">
+                <%= image_tag current_user.profile_picture, class: "profile-pic-thumbnail rounded-circle" %>
                 <%= current_user.username %>
-              <% end %>
+              </div>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"nav-link js-scroll-trigger" %>
+          </li>
+        </ul>
+            <% else %>
+                <ul class="navbar-nav text-uppercase mr-auto">
+                    <li class="nav-item">
+                      <%= link_to 'Sign Up', new_user_registration_path, class:"nav-link js-scroll-trigger", "data-toggle" => "modal", "data-target"=>"#signup-modal" %>
+                    </li>
+                    <li class="nav-item">
+                      <%= link_to 'Log In', new_user_session_url, class:"nav-link js-scroll-trigger", "data-toggle" => "modal", "data-target"=>"#login-modal" %>
+                    </li>
+                </ul>
+            <% end %>
             </div>
-          <% end %>
-          <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"btn btn-outline-primary my-2 my-sm-0" %>
-        <% else %>
-          <%= link_to 'Log In', new_user_session_url, class:"btn btn-outline-primary my-2 my-sm-0 mr-3", "data-toggle" => "modal", "data-target"=>"#login-modal" %>
-          <%= link_to 'Sign Up', new_user_registration_path, class:"btn btn-outline-primary my-2 my-sm-0", "data-toggle" => "modal", "data-target"=>"#signup-modal" %>
-        <% end %>
-      </div>
+        </div>
     </nav>
+    <%= yield %>
     <% unless user_signed_in? %>
       <%= render partial: 'devise/registrations/new' %>
       <%= render partial: 'devise/sessions/new' %>
     <% end %>
-    <%= yield %>
 
   </body>
 </html>

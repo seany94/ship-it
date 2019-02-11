@@ -2,89 +2,91 @@
 //                    Universal Styling
 // ========================================================
 
-a:hover{
-    text-decoration: none;
-    color: inherit;
-}
+// a:hover {
+// 	text-decoration: none;
+// 	color: inherit;
+// }
 
-body{
-    padding-top: 59px;
-    height: 100%;
-}
+// // body{
+// //     padding-top: 59px;
+// //     height: 100%;
+// // }
 
-h3{
-    margin:0;
-}
+// h3 {
+// 	margin: 0;
+// }
 
-html{
-    height: 100%;
-}
+// html {
+// 	height: 100%;
+// }
 
-.wrapper{
-    height: 100%;
-}
+// .wrapper {
+// 	height: 100%;
+// }
 
 // ========================================================
 //                  Job-Targeted Styling
 // ========================================================
 
-div p{
-    font-size: 10pt;
+div p {
+	font-size: 10pt;
 }
 
 // ========================================================
 //                  User-Targeted Styling
 // ========================================================
 
-.profile-pic-thumbnail{
-    width: 36px;
-    max-height: 36px;
-    overflow: hidden;
+.profile-pic-thumbnail {
+	width: 36px;
+	max-height: 36px;
+	overflow: hidden;
 }
 
-.profile-pic-full{
-    width: 200px;
-    max-height: 300px;
-    overflow: hidden;
+.profile-pic-full {
+	width: 200px;
+	max-height: 300px;
+	overflow: hidden;
 }
 
 // ========================================================
 //                      Animation CSS
 // ========================================================
 
-.job-list{
-    width:100%;
-    height: 100%;
-    float:left;
-    -webkit-transition: width 0.5s; /* For Safari 3.1 to 6.0 */
-    transition: width 1s;
+.job-list {
+	width: 100%;
+	height: 100%;
+	float: left;
+	-webkit-transition: width 0.5s;
+	/* For Safari 3.1 to 6.0 */
+	transition: width 1s;
 }
 
-.job-list-transition{
-    width: 30%;
-    height: 100%;
-    float:left;
-    overflow: auto;
-    -webkit-transition: width 1s; /* For Safari 3.1 to 6.0 */
-    transition: width 1s;
+.job-list-transition {
+	width: 30%;
+	height: 100%;
+	float: left;
+	overflow: auto;
+	-webkit-transition: width 1s;
+	/* For Safari 3.1 to 6.0 */
+	transition: width 1s;
 }
 
 .map-wrapper {
-    width: 0%;
-    height: 100%;
-    float:left;
+	width: 0%;
+	height: 100%;
+	float: left;
 }
 
 .map-wrapper-transition {
-    width: 70%;
-    height: 100%;
-    float: left;
-    -webkit-transition: width 1s;
+	width: 70%;
+	height: 100%;
+	float: left;
+	-webkit-transition: width 1s;
 }
 
 .scale-down-hor-left {
 	-webkit-animation: scale-down-hor-left 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: scale-down-hor-left 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: scale-down-hor-left 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
 // ========================================================

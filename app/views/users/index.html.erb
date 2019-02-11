@@ -132,29 +132,7 @@
 </div>
 
 <% else %>
-<h1>Users</h1>
-<table class="table table-bordered">
-	<thead>
-		<tr>
-			<th>User ID</th>
-			<th>Username</th>
-			<th>Profile picture</th>
-		</tr>
-	</thead>
 
-	<tbody>
-		<% @users.each do |user| %>
-		<tr>
-			<td><%= user.id %></td>
-			<td><%= user.username %></td>
-			<% if user.profile_picture == nil %>
-			<td>No profile picture, please upload</td>
-			<% else %>
-			<td><%= image_tag user.profile_picture, width: 300 %></td>
-			<% end %>
-			<td><%= link_to 'Show', user %></td>
-		</tr>
-		<% end %>
-	</tbody>
-</table>
+      <%= render partial: 'layouts/publicindex' %>
+
 <% end %>
