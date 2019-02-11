@@ -12,7 +12,8 @@
 </div>
 <% end %>
 
-<div class="text-center">
+<div class="card"></div>
+<div class="card shadow p-3 mb-5 bg-white rounded text-light d-flex" id="create-form">
 	<h3 class="default-text py-3"><i class="fas fa-shuttle-van"></i> New Job Posting</h3>
 	<div>
 		<i class="fas fa-file-alt"></i>
@@ -44,6 +45,10 @@
 		<label for="defaultForm-email">Delivery Date</label>
 		<%= form.datetime_select :date_delivery %>
 	</div>
+	<div>
+		<%= form.submit "Create Job", class:"btn btn-default" %>
+		<%= link_to 'Back', root_path, class:"btn btn-default" %>
+	</div>
 </div>
 
 <div class="field">
@@ -74,7 +79,4 @@
 	<%= form.hidden_field :completed, :value => false %>
 </div>
 
-<div class="actions" id="submit-button-wrapper">
-	<%= form.submit %>
-</div>
 <% end %>
