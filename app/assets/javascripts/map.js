@@ -11,7 +11,7 @@ var AUTOCOMPLETE_OPTIONS = {
     }
 };
 var map, service, directionsRenderer, directionsService;
-var startLatLong, endLatLong, markers = [];
+var startLatLong = [], endLatLong = [], markers = [], placeArray = [];
 
 function overrideFormSubmit() {
     document.querySelector('form').addEventListener('submit', e => {
@@ -42,7 +42,9 @@ function initJobForm(){
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.createElement('div'), SINGAPORE_LOCATION_OBJECT);
         initMapServices(map);
-        initAutocomplete();
+        initAutocomplete(obj => {
+            let place = obj.place;
+        });
         overrideFormSubmit();
     })
 }
@@ -52,9 +54,21 @@ function initMap() {
         map = new google.maps.Map(document.getElementById('map'), SINGAPORE_LOCATION_OBJECT);
         initMapServices(map);
         initJobCards();
-        initAutocomplete();
+        initAutocomplete(obj => {
+            if (obj.form.id === 'job_start_location'){
+                placeArray[0] = obj.place;
+            } else {
+                placeArray[1] = obj.place;
+            }
+        });
         $(maptrigger).on('click', addSlide);
-        $(maptrigger).on('click', initMarkersAndRoute);
+        $(maptrigger).on('click', () => {
+            if (placeArray.length === 0){
+                initMarkersAndRoute();
+            } else {
+                initMarkersAndRouteWithPlace();
+            }
+        });
     })
 }
 
@@ -65,16 +79,26 @@ function initMapServices(map){
     directionsRenderer.setMap(map);
 }
 
-function initAutocomplete() {
+function initAutocomplete(callback) {
     document.querySelectorAll('.autocomplete').forEach(form => {
         form.addEventListener('keydown', e => {
             e.keyCode === 13 ? e.preventDefault() : null;
         })
         let autocomplete = new google.maps.places.Autocomplete(form, AUTOCOMPLETE_OPTIONS);
         autocomplete.addListener('place_changed', () => {
-            let place = autocomplete.getPlace();
+            callback({
+                form: form,
+                place: autocomplete.getPlace()
+            });
         });
     })
+}
+
+function initMarkersAndRouteWithPlace(){
+    clearMarkers();
+    createMarker(placeArray[0], 'Start');
+    createMarker(placeArray[1], 'End');
+    showJobDistances([placeArray[0].geometry.location.lat(), placeArray[0].geometry.location.lng()])
 }
 
 function initMarkersAndRoute() {
@@ -92,22 +116,28 @@ function initMarkersAndRoute() {
         createMarker(results[0][0], 'Start');
         createMarker(results[1][0], 'End');
 
-        return [startLatLong, endLatLong];
+        return startLatLong;
     }, errors => {
         errors.forEach(error => {
             console.log(error);
         })
-    }).then(array => {
-        document.querySelectorAll('#distance').forEach(div => {
-            div.remove();
-        })
-        document.querySelectorAll('.job-card').forEach(card => {
-            let distance = getDistance(array[0][0], array[0][1], card.getAttribute('startlat'), card.getAttribute('startlong'))
-            distance < 2.0 ? card.hidden = false : card.hidden = true;
-            let div = document.createElement('div')
-            div.id = "distance"
-            div.innerText = "This place is " + distance.toFixed(2) + " km away from you."
-        })
+    }).then(startLatLong => {
+        showJobDistances(startLatLong);
+    })
+}
+
+function showJobDistances(startLatLongArray){
+    document.querySelectorAll('#distance').forEach(div => {
+        div.remove();
+    })
+    document.querySelectorAll('.job-card').forEach(card => {
+        let distance = getDistance(startLatLongArray[0], startLatLongArray[1], card.getAttribute('startlat'), card.getAttribute('startlong'))
+        distance < 2.0 ? card.hidden = false : card.hidden = true;
+        let div = document.createElement('div')
+        div.id = "distance"
+        div.innerText = "This place is " + distance.toFixed(2) + " km away from you."
+        card.childNodes[1].childNodes[3].childNodes[3].appendChild(div)
+        placeArray = [];
     })
 }
 
@@ -142,6 +172,7 @@ function initJobCards() {
             clearCardColors();
             card.style.backgroundColor = "#fffff0";
             placeQueries(card.getAttribute('startloc'), card.getAttribute('endloc'), showRoute);
+            addSlide();
         })
     })
 }
@@ -190,6 +221,7 @@ function newInfoWindow(result, endLocationString) {
 }
 
 function newMarker(result, markerLabel) {
+    console.log(result)
     return new google.maps.Marker({
         map: map,
         title: result.name,

@@ -3,12 +3,14 @@
     <%= include_gon %>
     <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
-  <div class="container">
-    <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
+  <div class="container shadow p-3 mb-5 bg-white rounded border border-info">
+	<div>
+    	<input type="text" class="form-control w-25 d-inline autocomplete" placeholder="Start Address" id="job_start_location">
+	</div>
     <input type="text" class="form-control w-25 d-inline autocomplete" placeholder="End Address" id="job_end_location">
     <button class="btn btn-outline-primary " id="maptrigger">Show Map</button>
   </div>
-<div class="wrapper">
+<div class="wrapper shadow mb-5 ml-3 mr-3 bg-white rounded border border-info w-90">
 	<div class="job-list" id='job-list'>
 		<% @jobs.each do |job| %>
 		<% p job %>
