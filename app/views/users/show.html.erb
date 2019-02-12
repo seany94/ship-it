@@ -50,9 +50,9 @@
 										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
-									<div class="btn btn-primary">Pending Acceptance</div>
+									<div class="btn btn-primary" style="color: black;">Pending Acceptance</div>
 									<% elsif job.acceptor_id != nil %>
-									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary" style="color: black;">Acceptor: <%= job.acceptor.username %></a>
 									<% end %>
 								</div>
 							</div>
@@ -80,9 +80,9 @@
 										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
-									<div class="btn btn-primary">Pending Acceptance</div>
+									<div class="btn btn-primary" style="color: black;">Pending Acceptance</div>
 									<% elsif job.acceptor_id != nil and job.user.username != @users.username%>
-									<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+									<a href="/users/<%= job.user.id %>" class="btn btn-primary" style="color: black;">Creator: <%= job.user.username %></a>
 									<% end %>
 								</div>
 							</div>
@@ -110,11 +110,11 @@
 										<strong>Pickup by</strong> <%= job.date_pickup.to_formatted_s(:long_ordinal) %> and <strong>deliver by</strong> <%= job.date_delivery.to_formatted_s(:long_ordinal) %>
 									</p>
 									<% if job.acceptor_id == nil %>
-									<div class="btn btn-primary">Pending Acceptance</div>
+									<div class="btn btn-primary" style="color: black;">Pending Acceptance</div>
 									<% elsif job.acceptor_id != nil and job.user.username != @users.username%>
-									<a href="/users/<%= job.user.id %>" class="btn btn-primary">Creator: <%= job.user.username %></a>
+									<a href="/users/<%= job.user.id %>" class="btn btn-primary" style="color: black;">Creator: <%= job.user.username %></a>
 									<% elsif job.acceptor_id != nil %>
-									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary">Acceptor: <%= job.acceptor.username %></a>
+									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary" style="color: black;">Acceptor: <%= job.acceptor.username %></a>
 									<% end %>
 								</div>
 							</div>
@@ -127,7 +127,7 @@
 	</div>
 </div>
     <%# <script type="text/javascript" src="/loggedinnav.js"></script> %>
-    <script>     
+    <script>
 if (Cookies.get('nav') == undefined) {
     $('#mainNav').addClass('transs');
 } else {
