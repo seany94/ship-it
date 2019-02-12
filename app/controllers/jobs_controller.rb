@@ -59,16 +59,15 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1.json
   def update
     @job = Job.find(params[:id])
-    if Job.where.not(:user_id => current_user.id)
+    if @job.accepted == false
       Job.where(:id => @job).update_all(:acceptor_id => current_user.id)
       Job.where(:id => @job).update_all(:accepted => true)
       flash[:alert] = "Congratulation job #{@job.title.capitalize} has been successfully accepted and added to your profile"
-      redirect_to root_path
-    elsif Job.where(:id => @job).where(:accepted => true).where(:user_id => current_user.id)
+    elsif @job.accepted == true
       Job.where(:id => @job).update_all(:completed => true)
       flash[:alert] = "Congratulation job #{@job.title.capitalize} has been successfully marked completed and updated on your profile"
-      redirect_to root_path
     end
+    redirect_to root_path
     # respond_to do |format|
     #   if @job.update(job_params)
     #     format.html { redirect_to @job, notice: 'Job was successfully updated.' }
