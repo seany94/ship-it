@@ -61,6 +61,7 @@
 									<div class="btn btn-primary" style="color: black;">Pending Acceptance</div>
 									<% elsif job.acceptor_id != nil %>
 									<a href="/users/<%= job.acceptor_id %>" class="btn btn-primary", style="color: black;">Acceptor: <%= job.acceptor.username %></a>
+									<%= link_to 'Mark Complete', job_path(job.id), method: :put, class:"btn btn-primary", style: "color: black;" %>
 									<% end %>
 								</div>
 							</div>
@@ -134,7 +135,7 @@
 		</div>
 	</div>
 </div>
-<script>     
+<script>
 if (Cookies.get('nav') == undefined) {
     $('#mainNav').addClass('transs');
 } else {
