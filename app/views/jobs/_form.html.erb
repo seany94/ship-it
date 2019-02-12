@@ -2,7 +2,7 @@
 
 <% if job.errors.any? %>
 <div id="error_explanation">
-	<h2><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
+	<h2"><%= pluralize(job.errors.count, "error") %> prohibited this job from being saved:</h2>
 
 	<ul>
 		<% job.errors.full_messages.each do |message| %>
@@ -14,41 +14,68 @@
 
 <div class="card"></div>
 <div class="card shadow p-3 mb-5 bg-white rounded text-light d-flex" id="create-form">
-	<h3 class="default-text py-3"><i class="fas fa-shuttle-van"></i> New Job Posting</h3>
-	<div>
-		<i class="fas fa-file-alt"></i>
-		<label for="defaultForm-email">Job Title</label>
-		<%= form.text_field :title %>
+	<h3 class="default-text py-3"><i class="m-3 fas fa-shuttle-van"></i> New Job Posting</h3>
+	<div class="form-group mx-5">
+  <div class="d-inline-block">
+  		<i class="fas fa-file-alt mr-2"></i>
+		<label for="defaultForm-email" class="mr-2">Job Title</label>
+  </div>
+  		<%= form.text_field :title, class: "d-block" %>
+
 	</div>
-	<div>
-		<i class="fas fa-box"></i>
-		<label for="defaultForm-email">Package Image</label>
-		<%= form.file_field :package_picture %>
+  <br>
+	<div class="form-group mx-5">
+    <div class="d-inline-block">
+
+		<i class="fas fa-box mr-2"></i>
+		<label for="defaultForm-email" class="mr-2">Package Image</label>
+      </div>
+
+		<%= form.file_field :package_picture, class: "d-block"  %>
 	</div>
-	<div>
+  <br>
+	<div class="form-group mx-5">
+      <div class="d-inline-block">
+
+		<i class="fas fa-map-marker-alt mr-2"></i>
+		<label for="defaultForm-email" class="mr-2">Start Location</label>
+    </div>
+		<%= form.text_field :start_location, class: 'autocomplete d-block' %>
+	</div>
+  <br>
+	<div class="form-group mx-5">
+        <div class="d-inline-block">
+
 		<i class="fas fa-map-marker-alt"></i>
-		<label for="defaultForm-email">Start Location</label>
-		<%= form.text_field :start_location, :class => 'autocomplete' %>
+		<label for="defaultForm-email" class="mr-2">End Location</label>
+    </div>
+		<%= form.text_field :end_location, class:'autocomplete d-block' %>
 	</div>
-	<div>
-		<i class="fas fa-map-marker-alt"></i>
-		<label for="defaultForm-email">End Location</label>
-		<%= form.text_field :end_location, :class => 'autocomplete' %>
-	</div>
-	<div>
+  <br>
+	<div class="form-group mx-5">
+          <div class="d-inline-block">
+
 		<i class="fas fa-calendar-alt"></i>
-		<label for="defaultForm-email">Pickup Date</label>
-		<%= form.datetime_select :date_pickup %>
+		<label for="defaultForm-email" class="mr-2">Pickup Date</label>
+        </div>
+
+		<%= form.datetime_select :date_pickup, class: "d-block" %>
 	</div>
-	<div>
+  <br>
+	<div class="form-group mx-5">
+          <div class="d-inline-block">
+
 		<i class="fas fa-calendar-alt"></i>
-		<label for="defaultForm-email">Delivery Date</label>
-		<%= form.datetime_select :date_delivery %>
+		<label for="defaultForm-email" class="mr-2">Delivery Date</label>
+        </div>
+
+		<%= form.datetime_select :date_delivery, class: "d-block" %>
 	</div>
-	<div>
+  <br>
+	<div class="form-group mx-5">
 		<%= form.submit "Create Job", class:"btn btn-default" %>
-		<%= link_to 'Back', root_path, class:"btn btn-default" %>
 	</div>
+  <br>
 </div>
 
 <div class="field">

@@ -3,3 +3,14 @@
 <% end %>
 
 <%= render 'form', job: @job %>
+    <script>     
+if (Cookies.get('nav') == undefined) {
+    $('#mainNav').addClass('transs');
+} else {
+    $('.navbar-brand').removeClass('tranzz');
+    $('#mainNav').removeClass('transs');
+    $('#mainNav').addClass('navbar-shrink');
+    $('#mainNav').addClass('noblocking');
+
+}
+</script>

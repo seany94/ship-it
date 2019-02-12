@@ -11,7 +11,10 @@ var AUTOCOMPLETE_OPTIONS = {
     }
 };
 var map, service, directionsRenderer, directionsService;
-var startLatLong = [], endLatLong = [], markers = [], placeArray = [];
+var startLatLong = [],
+    endLatLong = [],
+    markers = [],
+    placeArray = [];
 
 function overrideFormSubmit() {
     document.querySelector('form').addEventListener('submit', e => {
@@ -38,7 +41,7 @@ function overrideFormSubmit() {
     });
 }
 
-function initJobForm(){
+function initJobForm() {
     document.addEventListener('DOMContentLoaded', () => {
         map = new google.maps.Map(document.createElement('div'), SINGAPORE_LOCATION_OBJECT);
         initMapServices(map);
@@ -55,7 +58,7 @@ function initMap() {
         initMapServices(map);
         initJobCards();
         initAutocomplete(obj => {
-            if (obj.form.id === 'job_start_location'){
+            if (obj.form.id === 'job_start_location') {
                 placeArray[0] = obj.place;
             } else {
                 placeArray[1] = obj.place;
@@ -63,7 +66,7 @@ function initMap() {
         });
         $(maptrigger).on('click', addSlide);
         $(maptrigger).on('click', () => {
-            if (placeArray[0] && placeArray[1]){
+            if (placeArray[0] && placeArray[1]) {
                 initMarkersAndRouteWithPlace();
             } else {
                 initMarkersAndRoute();
@@ -72,7 +75,7 @@ function initMap() {
     })
 }
 
-function initMapServices(map){
+function initMapServices(map) {
     service = new google.maps.places.PlacesService(map);
     directionsService = new google.maps.DirectionsService;
     directionsRenderer = new google.maps.DirectionsRenderer;
@@ -94,12 +97,12 @@ function initAutocomplete(callback) {
     })
 }
 
-function initMarkersAndRouteWithPlace(){
+function initMarkersAndRouteWithPlace() {
     clearMarkers();
     createMarker(placeArray[0], 'Start');
     createMarker(placeArray[1], 'End');
     showJobDistances([placeArray[0].geometry.location.lat(), placeArray[0].geometry.location.lng()])
-    placeArray=[];
+    placeArray = [];
 }
 
 function initMarkersAndRoute() {
@@ -124,7 +127,7 @@ function initMarkersAndRoute() {
     })
 }
 
-function showJobDistances(startLatLongArray){
+function showJobDistances(startLatLongArray) {
     document.querySelectorAll('#distance').forEach(div => {
         div.remove();
     })
@@ -138,7 +141,7 @@ function showJobDistances(startLatLongArray){
     })
 }
 
-function createMarker(place, label){
+function createMarker(place, label) {
     let marker = newMarker(place, label);
     let infoWindow = newInfoWindow(place, place.name);
     marker.addListener('click', () => {
@@ -174,16 +177,16 @@ function initJobCards() {
     })
 }
 
-function clearCardColors(){
+function clearCardColors() {
     document.querySelectorAll('.job-card').forEach(card => {
         card.style.backgroundColor = "white";
     })
 }
 
 function clearMarkers() {
-    for (let i = markers.length-1; i >= 0; i--){
+    for (let i = markers.length - 1; i >= 0; i--) {
         markers[i].setMap(null);
-        markers.splice(i,1);
+        markers.splice(i, 1);
     }
 }
 
@@ -231,8 +234,8 @@ function newMarker(result, markerLabel) {
             strokeColor: '#000',
             strokeWeight: 1,
             scale: 1,
-            labelOrigin: new google.maps.Point(0,-48)
-          }
+            labelOrigin: new google.maps.Point(0, -48)
+        }
     });
 }
 
@@ -250,18 +253,18 @@ function newQueryParams(locationString) {
     }
 }
 
-function placeQuery(place, callback){
+function placeQuery(place, callback) {
     service.findPlaceFromQuery(newQueryParams(place), (result, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK){
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
             callback(result);
         }
     });
 }
 
-function placeQueries(firstPlace, secondPlace, callback){
+function placeQueries(firstPlace, secondPlace, callback) {
     service.findPlaceFromQuery(newQueryParams(firstPlace), (result, status) => {
         service.findPlaceFromQuery(newQueryParams(secondPlace), (resultTwo, statusTwo) => {
-            if (status === google.maps.places.PlacesServiceStatus.OK && statusTwo === google.maps.places.PlacesServiceStatus.OK){
+            if (status === google.maps.places.PlacesServiceStatus.OK && statusTwo === google.maps.places.PlacesServiceStatus.OK) {
                 callback(result, resultTwo);
             }
         })

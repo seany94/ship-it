@@ -1,58 +1,70 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2 class="m-5">Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: 'mx-5', html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true %>
+    <%= f.text_field :username, autofocus: true, class: 'form-control' %>
   </div>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :profile_picture %><br />
     <%= f.file_field :profile_picture %>
   </div>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :email %><br />
-    <%= f.email_field :email, autocomplete: "email" %>
+    <%= f.email_field :email, autocomplete: "email", class: 'form-control' %>
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
     <% if @minimum_password_length %>
-      <br />
       <em><%= @minimum_password_length %> characters minimum</em>
     <% end %>
   </div>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
   </div>
 
-  <div class="field">
+  <div class="field form-group mx-5">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control' %>
   </div>
 
   <br>
-  <%= flash[:recaptcha_error] %>
-	<%= recaptcha_tags %>
+  <div class="form-group mx-5">
+    <%= flash[:recaptcha_error] %>
+	  <%= recaptcha_tags %>
+  </div>
 	<br>
 
-  <div class="actions">
+  <div class="actions form-group mx-5">
     <%= f.submit "Update" %>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3 class="m-5">Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p class="mx-5">We are sad to see you go, but if you insist, click below, <br><br><%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, class: 'mx-5', method: :delete %></p>
 
-<%= link_to "Back", :back %>
+    <%# <script type="text/javascript" src="/loggedinnav.js"></script> %>
+    <script>     
+if (Cookies.get('nav') == undefined) {
+    $('#mainNav').addClass('transs');
+} else {
+    $('.navbar-brand').removeClass('tranzz');
+    $('#mainNav').removeClass('transs');
+    $('#mainNav').addClass('navbar-shrink');
+    $('#mainNav').addClass('noblocking');
+
+}
+</script>

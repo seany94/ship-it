@@ -8,6 +8,7 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_path('shipit.png') %>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <%= yield(:head_tags) %>
     <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -47,14 +48,14 @@
         <ul class="navbar-nav text-uppercase ml-auto">
           <li class="nav-item">
             <%= link_to root_path, class:"nav-link js-scroll-trigger", id: "test" do %>
-              <div class="flex-container mr-4">
+              <%# <div class="flex-container mr-4"> %>
                 <%= image_tag current_user.profile_picture, class: "profile-pic-thumbnail rounded-circle" %>
                 <%= current_user.username %>
-              </div>
+              <%# </div> %>
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"nav-link js-scroll-trigger" %>
+            <%= link_to 'Log out', destroy_user_session_url, method: :delete, class:"nav-link js-scroll-trigger align-middle", style: 'margin-top: 7%;' %>
           </li>
         </ul>
             <% else %>
@@ -76,5 +77,27 @@
       <%= render partial: 'devise/sessions/new' %>
     <% end %>
     <%= yield %>
+        <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <span class="copyright">Copyright &copy; 2019</span>
+                </div>
+                <div class="col-md">
+                    <ul class="list-inline quicklinks">
+                        <li class="list-inline-item">
+                            <a href="#">Privacy Policy</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#">Terms of Use</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+        <script type="text/javascript" src="/agency.js"></script>
   </body>
 </html>
