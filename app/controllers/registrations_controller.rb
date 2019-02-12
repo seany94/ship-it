@@ -4,6 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
   prepend_before_action :update_captcha, only: [:update]
 
   def create
+    cookies[:nav] = "true"
     @user = User.new(sign_up_params)
 
     if @user.profile_picture == nil
