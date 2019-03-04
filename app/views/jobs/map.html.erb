@@ -1,7 +1,8 @@
 <% provide :head_tags do %>
 <%# Gon gem transfers rails hash data to JS %>
 <%= include_gon %>
-<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyC-tEAh56qJBnYr7WTsvWyPqa1G9lRPpCc&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
+<%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD_df4-HImzTZoMVtCQVkin0dXyPOYF7Y4
+&libraries=places&callback=initMap', 'data-turbolinks-track': 'reload'%>
 <% end %>
   <div class="container p-3 my-5 bg-white rounded border border-secondary text-center" style="box-shadow: 3px 3px 10px grey;">
   	<h4 class="text-info" style="color: black!important;">Find jobs within 2.0km of you</h4>
